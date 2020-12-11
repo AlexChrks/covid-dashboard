@@ -30,7 +30,7 @@ getSummary return
     latLon: [ 33, 65 ]
   }, {...}]
 }
-getWorldHistory return
+getWorldHistory and getCountryHistory(slug) return
 [{
   date: 2020-01-22T00:00:00.000Z,
   totalConfirmed: 555,
@@ -46,6 +46,9 @@ export default class CovidAPI {
   static #worldHistory =`https://disease.sh/v3/covid-19/historical/all?lastdays=${Math.floor(
     (new Date() - new Date(2020, 0, 1)) / (1000 * 60 * 60 * 24)
   )}`;
+
+  static #countryHistory =`https://api.covid19api.com/country/slug?from=${
+    (new Date(2020, 4, 1)).toISOString()}&to=${(new Date()).toISOString()}`;
 
   static getSummary() {
     const urls = [CovidAPI.#covid19APIURL, CovidAPI.#countryInfoURL];
@@ -109,7 +112,7 @@ export default class CovidAPI {
   static getWorldHistory() {
     const retPromise = fetch(CovidAPI.#worldHistory).then((response) => {
       if (response.status !== 200) {
-        return new Error('getSummary http request error');
+        return new Error('getWorldHistory http request error');
       }
       return response.json();
     }).then((data) => {
@@ -121,6 +124,29 @@ export default class CovidAPI {
           totalConfirmed: data.cases[date],
           totalDeaths: data.deaths[date],
           totalRecovered: data.recovered[date]
+        };
+        database.push(day);
+      });
+      return database;
+    });
+    return retPromise;
+  }
+
+  static getCountryHistory(countrySlug) {
+    const url = CovidAPI.#countryHistory.replace(/slug/, countrySlug);
+    const retPromise = fetch(url).then((response) => {
+      if (response.status !== 200) {
+        return new Error('getCountryHistory http request error');
+      }
+      return response.json();
+    }).then((data) => {
+      const database = [];
+      data.forEach((element) => {
+        const day = {
+          date: new Date(element.Date),
+          totalConfirmed: element.Confirmed,
+          totalDeaths: element.Deaths,
+          totalRecovered: element.Recovered
         };
         database.push(day);
       });
