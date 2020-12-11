@@ -11,6 +11,10 @@ export default class CovidAPI {
 
   static #countryInfoURL = 'https://restcountries.eu/rest/v2/all?fields=alpha2Code;name;population;flag';
 
+  static #worldHistory =`https://disease.sh/v3/covid-19/historical/all?lastdays=${Math.floor(
+    (new Date() - new Date(2020, 0, 1)) / (1000 * 60 * 60 * 24)
+  )}`;
+
   static getSummary() {
     const urls = [CovidAPI.#covid19APIURL, CovidAPI.#countryInfoURL];
     const requests = urls.map((url) => fetch(url));
@@ -41,7 +45,8 @@ export default class CovidAPI {
           totalRecovered: covid.Global.TotalRecovered
         },
         countries: [],
-        ready: false
+        ready: false,
+        dateTime: new Date()
       };
       covid.Countries.forEach((country) => {
         const obj = countriesInfo.find((element) => element.alpha2Code === country.CountryCode);
@@ -63,6 +68,29 @@ export default class CovidAPI {
         }
       });
       database.ready = true;
+      return database;
+    });
+    return retPromise;
+  }
+
+  static getWorldHistory() {
+    const retPromise = fetch(CovidAPI.#worldHistory).then((response) => {
+      if (response.status !== 200) {
+        return new Error('getSummary http request error');
+      }
+      return response.json();
+    }).then((data) => {
+      const database = [];
+      const dateArr = Object.keys(data.cases);
+      dateArr.forEach((date) => {
+        const day = {
+          date: new Date(date),
+          totalConfirmed: data.cases[date],
+          totalDeaths: data.deaths[date],
+          totalRecovered: data.recovered[date]
+        };
+        database.push(day);
+      });
       return database;
     });
     return retPromise;
