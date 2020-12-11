@@ -5,11 +5,43 @@ const somePromise = CovidAPI.getSummary().then((database) => {
   console.log(database.global);
 }).catch((error) => console.log(error.message));
 For NodeJS install node-fetch package
+getSummary return
+{
+  global : {
+    newConfirmed: 697848,
+    totalConfirmed: 69582029,
+    newDeaths: 12481,
+    totalDeaths: 1581758,
+    newRecovered: 489131,
+    totalRecovered: 44863011
+  }
+  countries : [{
+    name: 'Afghanistan',
+    slug: 'afghanistan',
+    countryCode: 'AF',
+    newConfirmed: 202,
+    totalConfirmed: 48053,
+    newDeaths: 16,
+    totalDeaths: 1935,
+     newRecovered: 67,
+    totalRecovered: 38099,
+    population: 27657145,
+    flag: 'https://restcountries.eu/data/afg.svg',
+    latLon: [ 33, 65 ]
+  }, {...}]
+}
+getWorldHistory return
+[{
+  date: 2020-01-22T00:00:00.000Z,
+  totalConfirmed: 555,
+  totalDeaths: 17,
+  totalRecovered: 28
+}]
 */
 export default class CovidAPI {
   static #covid19APIURL = 'https://api.covid19api.com/summary';
 
-  static #countryInfoURL = 'https://restcountries.eu/rest/v2/all?fields=alpha2Code;name;population;flag';
+  static #countryInfoURL = 'https://restcountries.eu/rest/v2/all?fields=alpha2Code;name;population;latlng;flag';
 
   static #worldHistory =`https://disease.sh/v3/covid-19/historical/all?lastdays=${Math.floor(
     (new Date() - new Date(2020, 0, 1)) / (1000 * 60 * 60 * 24)
@@ -62,7 +94,8 @@ export default class CovidAPI {
             newRecovered: country.NewRecovered,
             totalRecovered: country.TotalRecovered,
             population: obj.population,
-            flag: obj.flag
+            flag: obj.flag,
+            latLon: obj.latlng
           };
           database.countries.push(cntr);
         }
