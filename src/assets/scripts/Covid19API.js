@@ -1,6 +1,6 @@
 /*
 Example for use
-import CovidAPI from './CovidAPI.js'
+import CovidAPI from './Covid19API.js'
 const somePromise = CovidAPI.getSummary().then((database) => {
   console.log(database.global);
 }).catch((error) => console.log(error.message));
@@ -39,19 +39,10 @@ getWorldHistory and getCountryHistory(slug) return
 }]
 */
 export default class CovidAPI {
-  static #covid19APIURL = 'https://api.covid19api.com/summary';
-
-  static #countryInfoURL = 'https://restcountries.eu/rest/v2/all?fields=alpha2Code;name;population;latlng;flag';
-
-  static #worldHistory =`https://disease.sh/v3/covid-19/historical/all?lastdays=${Math.floor(
-    (new Date() - new Date(2020, 0, 1)) / (1000 * 60 * 60 * 24)
-  )}`;
-
-  static #countryHistory =`https://api.covid19api.com/country/slug?from=${
-    (new Date(2020, 4, 1)).toISOString()}&to=${(new Date()).toISOString()}`;
-
   static getSummary() {
-    const urls = [CovidAPI.#covid19APIURL, CovidAPI.#countryInfoURL];
+    const covid19APIURL = 'https://api.covid19api.com/summary';
+    const countryInfoURL = 'https://restcountries.eu/rest/v2/all?fields=alpha2Code;name;population;latlng;flag';
+    const urls = [covid19APIURL, countryInfoURL];
     const requests = urls.map((url) => fetch(url));
     const retPromise = Promise.all(requests).then((responses) => {
       let err = false;
@@ -110,7 +101,10 @@ export default class CovidAPI {
   }
 
   static getWorldHistory() {
-    const retPromise = fetch(CovidAPI.#worldHistory).then((response) => {
+    const worldHistory = `https://disease.sh/v3/covid-19/historical/all?lastdays=${Math.floor(
+      (new Date() - new Date(2020, 0, 1)) / (1000 * 60 * 60 * 24)
+    )}`;
+    const retPromise = fetch(worldHistory).then((response) => {
       if (response.status !== 200) {
         return new Error('getWorldHistory http request error');
       }
@@ -133,7 +127,9 @@ export default class CovidAPI {
   }
 
   static getCountryHistory(countrySlug) {
-    const url = CovidAPI.#countryHistory.replace(/slug/, countrySlug);
+    const countryHistory = `https://api.covid19api.com/country/slug?from=${
+      (new Date(2020, 4, 1)).toISOString()}&to=${(new Date()).toISOString()}`;
+    const url = countryHistory.replace(/slug/, countrySlug);
     const retPromise = fetch(url).then((response) => {
       if (response.status !== 200) {
         return new Error('getCountryHistory http request error');
