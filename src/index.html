@@ -31,12 +31,18 @@
           <div class="graph_widget">
             <div class="schedule_inside">
               <canvas id="myChart"></canvas>
-          </div>
-          <div class="buttons">
-              <button class="btn_schedule" data-id="totalConfirmed">total</button>
-              <button class="btn_schedule" data-id="totalDeaths">deaths</button>
-              <button class="btn_schedule" data-id="totalRecovered">recovered</button>
-          </div>
+            </div>
+            <select id="select_schedule">
+              <option value="daily_totalConfirmed">daily cases</option>
+              <option value="daily_totalDeaths">daily deaths</option>
+              <option value="daily_totalRecovered">daily recovered</option>
+              <option value="cumulative_totalConfirmed">cumulative cases</option>
+              <option value="cumulative_totalDeaths">cumulative deaths</option>
+              <option value="cumulative_totalRecovered">cumulative recovered</option>
+              <option value="absolute_totalConfirmed">absolute cases</option>
+              <option value="absolute_totalDeaths">absolute deaths</option>
+              <option value="absolute_totalRecovered">absolute recovered</option>
+            </select>
           </div>
         </div>
       </div>

@@ -1,22 +1,31 @@
 import CovidAPI from '../Covid19API.js';
 import Schedule from './Schedule.js';
 
-function createSchedule() {
+function createSchedule(country) {
   const ctx = document.getElementById('myChart').getContext('2d');
-  const btns = document.querySelectorAll('.btn_schedule');
-  const somePromise = CovidAPI.getWorldHistory()
-    .then((database) => database)
-    .catch((error) => console.log(error.message));
-  somePromise.then((res) => {
-    const chart = new Schedule(res, ctx);
+  const selectSchedule = document.getElementById('select_schedule');
+  const chart = new Schedule(ctx);
+  let promiseHistory;
+  if (country !== undefined) {
+    promiseHistory = CovidAPI.getCountryHistory('Belarus')
+      .then((database) => database)
+      .catch((error) => new Error(error.message));
+  } else {
+    promiseHistory = CovidAPI.getWorldHistory()
+      .then((database) => database)
+      .catch((error) => new Error(error.message));
+  }
+  promiseHistory.then((res) => {
     chart.setArr = res;
-    chart.drawSchedule();
-    btns.forEach((el) => {
-      el.addEventListener('click', () => {
-        chart.drawSchedule(el.dataset.id);
-      });
-    });
+    chart.drawSchedule('totalConfirmed');
   });
+
+  function getSelectValue(value) {
+    const selectScheduleValue = document.getElementById('select_schedule').value;
+    if (value) chart.drawSchedule(value);
+    chart.drawSchedule(selectScheduleValue.split('_')[1], selectScheduleValue.split('_')[0]);
+  }
+  selectSchedule.addEventListener('change', getSelectValue);
 }
 
 export default createSchedule;

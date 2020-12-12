@@ -1,8 +1,7 @@
 import Chart from './Chart.bundle.min.js';
 
 class Schedule {
-  constructor(arrayDays, ctx) {
-    this.arrayDays = arrayDays;
+  constructor(ctx) {
     this.ctx = ctx;
   }
 
@@ -10,34 +9,38 @@ class Schedule {
     this.arrayDays = val;
   }
 
-  convert(param) {
+  convertDaily(param, option) {
     for (let i = 1; i < this.arrayDays.length; i++) {
+      let num;
+      if (option === 'daily') {
+        num = this.arrayDays[i][param] - this.arrayDays[i - 1][param];
+      } else if (option === 'cumulative') {
+        num = this.arrayDays[i][param];
+      }
+      if (num < 0) num = 0;
       this.arr.push({
         x: new Date(`${this.arrayDays[i].date}`),
-        y: (this.arrayDays[i][param] - this.arrayDays[i - 1][param])
+        y: (num)
       });
     }
+    this.maxValue = Math.ceil(Math.max(...this.arr.map((el) => el.y)) / 10) * 15;
+    this.stepSize = this.maxValue / 3;
   }
 
-  drawSchedule(param = 'totalConfirmed') {
-    if (param === 'totalConfirmed') {
-      this.maxValue = 2000000;
-      this.stepSize = 500000;
-    } else if (param === 'totalDeaths') {
-      this.maxValue = 20000;
-      this.stepSize = 5000;
-    } else {
-      this.maxValue = 750000;
-      this.stepSize = 250000;
-    }
+  drawSchedule(param, option = 'daily') {
+    if (param === 'totalConfirmed') this.color = 'rgb(255, 99, 132)';
+    else if (param === 'totalDeaths') this.color = 'rgb(194, 10, 10)';
+    else this.color = 'rgb(41, 181, 20)';
+    if (option === 'daily') this.type = 'bar';
+    else if (option === 'cumulative') this.type = 'bubble';
     this.arr = [];
-    this.convert(param);
+    this.convertDaily(param, option);
     const chartConfig = {
-      type: 'bar',
+      type: this.type,
       data: {
         datasets: [{
-          backgroundColor: 'rgb(255, 99, 132)',
-          borderColor: 'rgb(255, 99, 132)',
+          backgroundColor: this.color,
+          borderColor: this.color,
           barThickness: 2,
           data: this.arr
         }]
@@ -45,6 +48,9 @@ class Schedule {
       options: {
         responsive: true,
         legend: false,
+        interaction: {
+          mode: 'x'
+        },
         scales: {
           yAxes: [{
             ticks: {
