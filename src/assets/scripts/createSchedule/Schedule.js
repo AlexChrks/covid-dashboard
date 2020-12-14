@@ -1,4 +1,5 @@
 import Chart from './Chart.bundle.min.js';
+import CovidAPI from '../Covid19API.js';
 
 class Schedule {
   constructor(ctx) {
@@ -9,7 +10,41 @@ class Schedule {
     this.arrayDays = val;
   }
 
-  convertDaily(param, option) {
+  createSchedule(country = 'world', option = 'cumulative_totalConfirmed', percent = false) {
+    const selectSchedule = document.getElementById('select_schedule');
+    setTimeout(() => {
+      selectSchedule.value = option;
+    }, 200);
+    if (!percent) {
+      if (country !== 'world') {
+        this.promiseHistory = CovidAPI.getCountryHistory(country)
+          .then((database) => database)
+          .catch((error) => new Error(error.message));
+      } else if (country === 'world' && !percent) {
+        this.promiseHistory = CovidAPI.getWorldHistory()
+          .then((database) => database)
+          .catch((error) => new Error(error.message));
+      }
+    } else {
+      
+    }
+    this.promiseHistory.then((res) => {
+      this.setArr = res;
+      this.drawSchedule(option.split('_')[1], option.split('_')[0]);
+    });
+    this.handleEvent = (e) => {
+      if (e.type === 'change') {
+        const selectScheduleValue = selectSchedule.value;
+        this.drawSchedule(selectScheduleValue.split('_')[1],
+          selectScheduleValue.split('_')[0],
+          selectScheduleValue.split('_')[2]);
+      }
+    };
+    selectSchedule.removeEventListener('change', this, false);
+    selectSchedule.addEventListener('change', this, false);
+  }
+
+  convertCases(param, option) {
     for (let i = 1; i < this.arrayDays.length; i++) {
       let num;
       if (option === 'daily') {
@@ -27,14 +62,18 @@ class Schedule {
     this.stepSize = this.maxValue / 3;
   }
 
-  drawSchedule(param, option = 'daily') {
-    if (param === 'totalConfirmed') this.color = 'rgb(255, 99, 132)';
-    else if (param === 'totalDeaths') this.color = 'rgb(194, 10, 10)';
-    else this.color = 'rgb(41, 181, 20)';
+  drawSchedule(param, option, percent) {
+    if (param === 'totalConfirmed') {
+      this.color = 'rgb(255, 99, 132)';
+    } else if (param === 'totalDeaths') {
+      this.color = 'rgb(194, 10, 10)';
+    } else {
+      this.color = 'rgb(41, 181, 20)';
+    }
     if (option === 'daily') this.type = 'bar';
     else if (option === 'cumulative') this.type = 'bubble';
     this.arr = [];
-    this.convertDaily(param, option);
+    this.convertCases(param, option);
     const chartConfig = {
       type: this.type,
       data: {
@@ -48,8 +87,18 @@ class Schedule {
       options: {
         responsive: true,
         legend: false,
-        interaction: {
-          mode: 'x'
+        tooltips: {
+          callbacks: {
+            label(tooltipItem) {
+              let label = '';
+              if (option === 'cumulative') {
+                label += `${tooltipItem.xLabel}:${tooltipItem.yLabel}`;
+              } else {
+                label += tooltipItem.yLabel;
+              }
+              return label;
+            }
+          }
         },
         scales: {
           yAxes: [{
