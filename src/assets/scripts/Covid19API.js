@@ -30,6 +30,8 @@ getSummary return
     flag: 'https://restcountries.eu/data/afg.svg',
     latLon: [ 33, 65 ]
   }, {...}]
+  ready: false,
+  dateTime: new Date()
 }
 getWorldHistory and getCountryHistory(slug) return
 [{
@@ -39,10 +41,22 @@ getWorldHistory and getCountryHistory(slug) return
   totalRecovered: 28
 }]
 */
+import LocalStorage from './LocalStorage.js';
+
 export default class CovidAPI {
   static getSummary() {
     const covid19APIURL = 'https://api.covid19api.com/summary';
     const countryInfoURL = 'https://restcountries.eu/rest/v2/all?fields=alpha2Code;name;population;latlng;flag';
+    const c19Summary = LocalStorage.read('c19Summary');
+    let cash = false;
+    if (c19Summary !== null) {
+      if (Math.floor((new Date() - new Date(c19Summary.dateTime)) / (1000 * 60 * 60)) < 12) {
+        cash = true;
+      }
+    }
+    if (cash === true) {
+      return new Promise((resolve) => resolve(c19Summary));
+    }
     const urls = [covid19APIURL, countryInfoURL];
     const requests = urls.map((url) => fetch(url));
     const retPromise = Promise.all(requests).then((responses) => {
@@ -99,6 +113,7 @@ export default class CovidAPI {
       });
       database.global.totalPopulation = totalPopulation;
       database.ready = true;
+      LocalStorage.write('c19Summary', database);
       return database;
     });
     return retPromise;
