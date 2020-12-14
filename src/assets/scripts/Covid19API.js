@@ -13,7 +13,8 @@ getSummary return
     newDeaths: 12481,
     totalDeaths: 1581758,
     newRecovered: 489131,
-    totalRecovered: 44863011
+    totalRecovered: 44863011,
+    totalPopulation: 7304699132
   }
   countries : [{
     name: 'Afghanistan',
@@ -74,6 +75,7 @@ export default class CovidAPI {
         ready: false,
         dateTime: new Date()
       };
+      let totalPopulation = 0;
       covid.Countries.forEach((country) => {
         const obj = countriesInfo.find((element) => element.alpha2Code === country.CountryCode);
         if (obj !== undefined) {
@@ -91,9 +93,11 @@ export default class CovidAPI {
             flag: obj.flag,
             latLon: obj.latlng
           };
+          totalPopulation += obj.population;
           database.countries.push(cntr);
         }
       });
+      database.global.totalPopulation = totalPopulation;
       database.ready = true;
       return database;
     });
