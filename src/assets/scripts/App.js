@@ -1,4 +1,5 @@
 import OptionsPanel from './OptionsPanel.js';
+import Schedule from './createSchedule/Schedule.js';
 
 export default class App {
   constructor(summary, lastUpdatedLabel, generalGrid) {
@@ -14,6 +15,7 @@ export default class App {
     this.lastUpdatedLabel.innerHTML = this.summary.dateTime.toLocaleString('en-US', dtoptions);
     this.infoWidget = this.generalGrid.getElementsByClassName('info_widget').item(0);
     this.infoWidgetOptions = new OptionsPanel();
+    this.schedule = new Schedule();
     this.infoWidget.append(this.infoWidgetOptions.div);
   }
 }
