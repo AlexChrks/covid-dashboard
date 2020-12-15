@@ -18,5 +18,6 @@ export default class App {
     this.infoWidgetOptions = new OptionsPanel();
     this.schedule = new Schedule();
     this.infoWidget.append(this.infoWidgetOptions.div);
+    MapWidget.init();
   }
 }
