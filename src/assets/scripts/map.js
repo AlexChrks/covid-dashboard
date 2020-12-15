@@ -1,11 +1,13 @@
 /*
 Example for use
 import { MapWidget } from './mymap.js';
-MapWidget.init();
+MapWidget.init(); for create map
+MapWidget.confirmedAllTime(); add circles for confirmed cases for all time
 */
 
 import CovidAPI from './Covid19API.js';
 import './leaflet-src.js';
+import '../styles/leaflet.css';
 
 const MapContainer = {
   elements: {
@@ -21,30 +23,15 @@ const MapContainer = {
       zoomDelta: 0.25,
       zoomSnap: 0.25
     };
+    // eslint-disable-next-line no-undef
     this.elements.mapImg = new L.Map(mapBlock, mapOptions);
+    // eslint-disable-next-line no-undef
     const layer = new L.TileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png', {
       maxZoom: 20,
       minZoom: 1
     });
     this.elements.mapImg.addLayer(layer);
-
-    const btnCases = document.querySelectorAll('.title_data_cases');
-    btnCases.forEach((elem) => {
-      elem.addEventListener('click', (e) => {
-        const listCases = e.target.closest('.data_cases').querySelector('.list_cases');
-        if (listCases.classList.contains('list_cases_active')) {
-          listCases.classList.remove('list_cases_active');
-        } else {
-          listCases.classList.add('list_cases_active');
-        }
-      });
-
-      elem.addEventListener('blur', (e) => {
-        const listCases = e.target.closest('.data_cases').querySelector('.list_cases');
-        listCases.classList.remove('list_cases_active');
-      });
-    });
-    document.querySelector('.total_confirmed_k').addEventListener('click', this.confirmedlastDay);
+    this.confirmedAllTime();
   },
 
   confirmedAllTime() {
@@ -62,6 +49,7 @@ const MapContainer = {
         } else {
           radiusCircle = 3;
         }
+        // eslint-disable-next-line no-undef
         const circle = new L.CircleMarker(database.countries[i].latLon, {
           color: 'rgba(8,138,179,0.7)',
           fillColor: 'rgba(8,138,179,1)',
@@ -85,9 +73,6 @@ const MapContainer = {
     ${dataObj.name}<br>
     Confirmed cases: ${causes.toLocaleString()}`;
     popapMap.style.display = 'block';
-    /* this.elements.circles.forEach((elem) => {
-      this.elements.mapImg.removeLayer(elem);
-    }); */
   },
 
   confirmedlastDay() {
@@ -109,6 +94,7 @@ const MapContainer = {
         } else {
           radiusCircle = 3;
         }
+        // eslint-disable-next-line no-undef
         const circle = new L.CircleMarker(database.countries[i].latLon, {
           color: 'rgba(8,138,179,0.7)',
           fillColor: 'rgba(8,138,179,1)',

@@ -1,4 +1,5 @@
 import OptionsPanel from './OptionsPanel.js';
+import { MapWidget } from './map.js';
 
 export default class App {
   constructor(summary, lastUpdatedLabel, generalGrid) {
@@ -15,5 +16,6 @@ export default class App {
     this.infoWidget = this.generalGrid.getElementsByClassName('info_widget').item(0);
     this.infoWidgetOptions = new OptionsPanel();
     this.infoWidget.append(this.infoWidgetOptions.div);
+    MapWidget.init();
   }
 }
