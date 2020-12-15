@@ -22,7 +22,7 @@ header .wrapper {
 }
 
 .last_updated_container {
-  font-size: 1,6rem;
+  font-size: 1.5rem;
 }
 
 .wrapper {
@@ -77,6 +77,32 @@ main {
   border-radius: 10px;
 }
 
+.optionspanel {
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  font-size: 2rem;
+  background-color: lightslategray;
+  border-radius: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.optionscontainer1 {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+}
+
+.indicatorgroup {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
 /* _________________________________________footer */
 
 footer {
