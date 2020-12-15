@@ -1,5 +1,5 @@
 import OptionsPanel from './OptionsPanel.js';
-import Schedule from './createSchedule/Schedule.js';
+import Schedule from './Schedule.js';
 
 export default class App {
   constructor(summary, lastUpdatedLabel, generalGrid) {
