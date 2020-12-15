@@ -1,6 +1,6 @@
 /*
 Example for use
-import { MapWidget } from './mymap.js';
+import { MapWidget } from './map.js';
 MapWidget.init(); for create map
 MapWidget.confirmedAllTime(); add circles for confirmed cases for all time
 */
