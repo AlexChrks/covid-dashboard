@@ -55,7 +55,10 @@ export default class CovidAPI {
       }
     }
     if (cash === true) {
-      return new Promise((resolve) => resolve(c19Summary));
+      return new Promise((resolve) => {
+        c19Summary.dateTime = new Date(c19Summary.dateTime);
+        resolve(c19Summary);
+      });
     }
     const urls = [covid19APIURL, countryInfoURL];
     const requests = urls.map((url) => fetch(url));
