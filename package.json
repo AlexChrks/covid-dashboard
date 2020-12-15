@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack --mode development",
     "build": "webpack --mode production",
     "watch": "webpack --mode development --watch"
@@ -23,6 +23,13 @@
   },
   "homepage": "https://github.com/AlexChrks/covid-dashboard#readme",
   "devDependencies": {
+    "file-loader": "^6.2.0",
+    "image-webpack-loader": "^7.0.1",
+    "webpack": "^5.5.0",
+    "webpack-cli": "^4.2.0",
+    "css-loader": "^5.0.1",
+    "html-webpack-plugin": "^4.5.0",
+    "style-loader": "^2.0.0",
     "@babel/cli": "^7.12.8",
     "@babel/core": "^7.6.0",
     "@babel/eslint-parser": "^7.12.1",
@@ -30,17 +37,9 @@
     "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/preset-env": "^7.6.0",
     "babel-eslint": "^8.2.6",
-    "css-loader": "^5.0.1",
     "eslint": "^7.13.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^6.5.0",
-    "eslint-plugin-import": "^2.22.1",
-    "file-loader": "^6.2.0",
-    "html-webpack-plugin": "^4.5.0",
-    "image-webpack-loader": "^7.0.1",
-    "jest": "^26.6.3",
-    "style-loader": "^2.0.0",
-    "webpack": "^5.5.0",
-    "webpack-cli": "^4.2.0"
+    "eslint-plugin-import": "^2.22.1"
   }
 }
