@@ -10,6 +10,7 @@ imagesContext.keys().forEach((key) => {
     .substring(0, key.length - 6);
   imagesObj[code] = imagesContext(key);
 });
+
 export default imagesObj;
 const lastUpdatedLabel = document.getElementById('lastupdateddate');
 const generalGrid = document.getElementById('generalgrid');
