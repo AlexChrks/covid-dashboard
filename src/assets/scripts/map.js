@@ -1,23 +1,53 @@
+/*
+Example for use
+import { MapWidget } from './mymap.js';
+MapWidget.init();
+*/
+
 import CovidAPI from './Covid19API.js';
+import './leaflet-src.js';
 
-export default class Map {
-  mymap;
+const MapContainer = {
+  elements: {
+    mapImg: '',
+    circles: []
+  },
 
-  constructor(map) {
-    this.map = map;
-  }
-
-  allCountries() {
+  init() {
+    const mapBlock = document.querySelector('.map_widget');
     const mapOptions = {
       center: [0, 0],
-      zoom: 1
+      zoom: 1,
+      zoomDelta: 0.25,
+      zoomSnap: 0.25
     };
-    this.mymap = new L.Map(this.map, mapOptions);
+    this.elements.mapImg = new L.Map(mapBlock, mapOptions);
     const layer = new L.TileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png', {
       maxZoom: 20,
       minZoom: 1
     });
-    this.mymap.addLayer(layer);
+    this.elements.mapImg.addLayer(layer);
+
+    const btnCases = document.querySelectorAll('.title_data_cases');
+    btnCases.forEach((elem) => {
+      elem.addEventListener('click', (e) => {
+        const listCases = e.target.closest('.data_cases').querySelector('.list_cases');
+        if (listCases.classList.contains('list_cases_active')) {
+          listCases.classList.remove('list_cases_active');
+        } else {
+          listCases.classList.add('list_cases_active');
+        }
+      });
+
+      elem.addEventListener('blur', (e) => {
+        const listCases = e.target.closest('.data_cases').querySelector('.list_cases');
+        listCases.classList.remove('list_cases_active');
+      });
+    });
+    document.querySelector('.total_confirmed_k').addEventListener('click', this.confirmedlastDay);
+  },
+
+  confirmedAllTime() {
     CovidAPI.getSummary().then((database) => {
       for (let i = 0; i < database.countries.length; i += 1) {
         let radiusCircle;
@@ -33,22 +63,68 @@ export default class Map {
           radiusCircle = 3;
         }
         const circle = new L.CircleMarker(database.countries[i].latLon, {
-          color: 'rgba(255,255,255, 0)',
-          fillColor: 'red',
-          fillOpacity: 0.6,
+          color: 'rgba(8,138,179,0.7)',
+          fillColor: 'rgba(8,138,179,1)',
+          fillOpacity: 0.7,
           radius: radiusCircle
         });
-        circle.bindPopup(database.countries[i].name);
-        circle.addTo(this.mymap);
+        this.elements.circles.push(circle);
+        circle.addTo(MapContainer.elements.mapImg).on('click', () => {
+          MapContainer.focusMap(database.countries[i], database.countries[i].totalConfirmed, circle);
+        });
+      }
+    // eslint-disable-next-line no-console
+    }).catch((error) => console.log(error.message));
+  },
+
+  focusMap(dataObj, causes, circle) {
+    circle.closePopup();
+    this.elements.mapImg.setView([dataObj.latLon[0], dataObj.latLon[1]], 5);
+    const popapMap = document.querySelector('.map_popap');
+    popapMap.innerHTML = `
+    ${dataObj.name}<br>
+    Confirmed cases: ${causes.toLocaleString()}`;
+    popapMap.style.display = 'block';
+    /* this.elements.circles.forEach((elem) => {
+      this.elements.mapImg.removeLayer(elem);
+    }); */
+  },
+
+  confirmedlastDay() {
+    MapContainer.elements.circles.forEach((elem) => {
+      MapContainer.elements.mapImg.removeLayer(elem);
+    });
+    MapContainer.elements.circles = [];
+    CovidAPI.getSummary().then((database) => {
+      for (let i = 0; i < database.countries.length; i += 1) {
+        let radiusCircle;
+        if (database.countries[i].newConfirmed < 5000 && database.countries[i].newConfirmed > 1000) {
+          radiusCircle = 5;
+        } else if (database.countries[i].newConfirmed < 10000 && database.countries[i].newConfirmed >= 5000) {
+          radiusCircle = 7;
+        } else if (database.countries[i].newConfirmed >= 10000 && database.countries[i].newConfirmed < 50000) {
+          radiusCircle = 9;
+        } else if (database.countries[i].newConfirmed > 50000) {
+          radiusCircle = 14;
+        } else {
+          radiusCircle = 3;
+        }
+        const circle = new L.CircleMarker(database.countries[i].latLon, {
+          color: 'rgba(8,138,179,0.7)',
+          fillColor: 'rgba(8,138,179,1)',
+          fillOpacity: 0.7,
+          radius: radiusCircle
+        });
+        MapContainer.elements.circles.push(circle);
+        circle.addTo(MapContainer.elements.mapImg).on('click', () => {
+          MapContainer.focusMap(database.countries[i], database.countries[i].newConfirmed, circle);
+        });
       }
     // eslint-disable-next-line no-console
     }).catch((error) => console.log(error.message));
   }
 
-  deleteCircles() {
-    console.log(this.mymap._layers);
-    for(let i in this.mymap._layers) {
-      console.log(i);
-    }
-  }
-}
+};
+
+// eslint-disable-next-line import/prefer-default-export
+export const MapWidget = MapContainer;
