@@ -46,6 +46,38 @@ header .wrapper {
   font-size: 3rem;
 }
 
+.graph_widget {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* popup */
+
+.full_screen_popup {
+  position: fixed !important;
+  top: 11%;
+  bottom: 11%;
+  left: 1%;
+  right: 1%;
+  width: 98%;
+  z-index: 1500;
+  height: 78%;
+}
+
+.schedule_inside {
+  position: relative;
+  margin: auto;
+  margin-top: 10px;
+  height: 90%;
+  width: 90%;
+}
+
+.full_screen {
+  position: absolute;
+  z-index: 1000;
+}
+
 /* __________________________________________main */
 main {
   height: 80vh;
@@ -158,10 +190,10 @@ footer, footer .wrapper {
 /* _________________________________________media */
 
 @media screen and (max-width: 1024px) {
-  main {
+   main {
     height: fit-content;
     margin: 2vh 0;
-  }
+  } 
 
   .general_grid {
     grid-template-columns: 33vw 61vw;

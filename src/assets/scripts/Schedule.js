@@ -62,6 +62,7 @@ class Schedule {
     this.containerSelect.append(this.paramSelect, this.optionSelect, this.percentSelect);
     this.scheduleInside.append(this.canvas);
     this.graphWidget.append(this.scheduleInside, this.containerSelect);
+    return this.graphWidget;
   }
 
   createSchedule(country = 'world', param = 'totalConfirmed',
@@ -78,6 +79,18 @@ class Schedule {
       selectPercent.value = percent;
     }, 200);
     const arrayPromises = [];
+    this.handleEvent = (e) => {
+      if (e.type === 'change') {
+        this.drawSchedule(selectParam.value, selectOption.value, selectPercent.value);
+      }
+    };
+    arraySelected.forEach((el) => {
+      el.removeEventListener('change', this, false);
+    });
+    arraySelected.forEach((el) => {
+      el.addEventListener('change', this, false);
+    });
+
     if (country !== 'world') {
       this.promiseHistory = CovidAPI.getCountryHistory(country)
         .then((database) => database)
@@ -91,20 +104,9 @@ class Schedule {
       .then((database) => database)
       .catch((error) => new Error(error.message));
     arrayPromises.push(this.promiseSummary, this.promiseHistory);
-    Promise.all(arrayPromises).then((arr) => {
+    return Promise.all(arrayPromises).then((arr) => {
       [this.objCases, this.arrayDays] = arr;
       this.drawSchedule(param, option, percent);
-    });
-    this.handleEvent = (e) => {
-      if (e.type === 'change') {
-        this.drawSchedule(selectParam.value, selectOption.value, selectPercent.value);
-      }
-    };
-    arraySelected.forEach((el) => {
-      el.removeEventListener('change', this, false);
-    });
-    arraySelected.forEach((el) => {
-      el.addEventListener('change', this, false);
     });
   }
 
@@ -147,6 +149,7 @@ class Schedule {
     const max = Math.max(...this.arr.map((el) => el.y));
     this.maxValue = this.transformMaxValue(max);
     this.stepSize = this.maxValue / 4;
+    return this.arr;
   }
 
   convertCases(param, option) {
@@ -166,6 +169,7 @@ class Schedule {
     const max = Math.max(...this.arr.map((el) => el.y));
     this.maxValue = this.transformMaxValue(max);
     this.stepSize = this.maxValue / 4;
+    return this.arr;
   }
 
   drawSchedule(param, option, percent) {
@@ -194,7 +198,7 @@ class Schedule {
         }]
       },
       options: {
-        responsive: true,
+        maintainAspectRatio: false,
         legend: false,
         tooltips: {
           callbacks: {
@@ -270,6 +274,7 @@ class Schedule {
     if (this.chart) this.chart.destroy();
     Chart.defaults.global.defaultFontColor = 'rgba(255,255,255,.7)';
     this.chart = new Chart(this.ctx, chartConfig);
+    return this.chart;
   }
 }
 

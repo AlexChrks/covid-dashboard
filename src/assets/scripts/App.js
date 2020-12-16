@@ -19,5 +19,15 @@ export default class App {
     this.schedule = new Schedule();
     this.infoWidget.append(this.infoWidgetOptions.div);
     MapWidget.init();
+    this.createPopup();
+  }
+
+  createPopup() {
+    this.buttons = document.querySelectorAll('.full_screen');
+    this.buttons.forEach((el) => {
+      el.addEventListener('click', () => {
+        el.parentNode.classList.toggle('full_screen_popup');
+      });
+    });
   }
 }
