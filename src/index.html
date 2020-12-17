@@ -25,7 +25,25 @@
     <div class="wrapper">
       <div class="general_grid" id="generalgrid">
         <div class="countries_widget"></div>
-        <div class="map_widget"></div>
+        <div class="map_widget">
+          <div class="map_popap"></div>
+          <div class="map_legend"></div>
+          <div class="map_select">
+            <select id="map_select_param">
+              <option value="totalConfirmed" selected="selected">Cases</option>
+              <option value="totalDeaths">Deaths</option>
+              <option value="totalRecovered">Recovered</option>
+            </select>
+            <select id="map_select_option">
+              <option value="daily">Daily</option>
+              <option value="cumulative" selected="selected">Cumulative</option>
+            </select>
+            <select id="map_select_percent">
+              <option value="absolute" selected="selected">Absolute</option>
+              <option value="per100k">Per 100k</option>
+            </select>
+          </div>
+        </div>
         <div class="additional_grid">
           <div class="info_widget"></div>
           <div class="graph_widget"></div>
