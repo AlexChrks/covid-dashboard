@@ -11,7 +11,7 @@ class Schedule {
     this.graphWidget = document.querySelector('.graph_widget');
     this.scheduleInside = document.createElement('div');
     this.canvas = document.createElement('canvas');
-    this.containerSelect = document.createElement('div');
+    /* this.containerSelect = document.createElement('div');
 
     this.optionSelect = document.createElement('select');
     this.paramSelect = document.createElement('select');
@@ -45,30 +45,46 @@ class Schedule {
     this.optionTotal.setAttribute('selected', 'selected');
     this.percentAbs.setAttribute('selected', 'selected');
 
-    this.containerSelect.className = 'schedule_select';
+    this.containerSelect.className = 'schedule_select'; */
     this.scheduleInside.className = 'schedule_inside';
 
     this.canvas.id = 'myChart';
-    this.optionSelect.id = 'select_option';
+    /* this.optionSelect.id = 'select_option';
     this.paramSelect.id = 'select_param';
-    this.percentSelect.id = 'select_percent';
+    this.percentSelect.id = 'select_percent'; */
 
     this.ctx = this.canvas.getContext('2d');
 
-    this.optionSelect.append(this.optionDaily, this.optionTotal);
+    /* this.optionSelect.append(this.optionDaily, this.optionTotal);
     this.paramSelect.append(this.paramCases, this.paramDeaths, this.paramRecovered);
     this.percentSelect.append(this.percentAbs, this.percentPer100k);
 
-    this.containerSelect.append(this.paramSelect, this.optionSelect, this.percentSelect);
+    this.containerSelect.append(this.paramSelect, this.optionSelect, this.percentSelect); */
     this.scheduleInside.append(this.canvas);
-    this.graphWidget.append(this.scheduleInside, this.containerSelect);
+    this.graphWidget.append(this.scheduleInside /* , this.containerSelect */);
     return this.graphWidget;
   }
 
   createSchedule(country = 'world', param = 'totalConfirmed',
-    option = 'cumulative', percent = 'absolute') {
+    option = 'total', percent = 'absolute') {
     this.country = country;
-    const selectParam = document.getElementById('select_param');
+    const arrayPromises = [];
+    let newParam;
+    switch (param) {
+      case 'confirmed':
+        newParam = 'totalConfirmed';
+        break;
+      case 'deaths':
+        newParam = 'totalDeaths';
+        break;
+      case 'recovered':
+        newParam = 'totalRecovered';
+        break;
+      default:
+        newParam = param;
+        break;
+    }
+    /* const selectParam = document.getElementById('select_param');
     const selectOption = document.getElementById('select_option');
     const selectPercent = document.getElementById('select_percent');
     const arraySelected = [];
@@ -78,7 +94,6 @@ class Schedule {
       selectOption.value = option;
       selectPercent.value = percent;
     }, 200);
-    const arrayPromises = [];
     this.handleEvent = (e) => {
       if (e.type === 'change') {
         this.drawSchedule(selectParam.value, selectOption.value, selectPercent.value);
@@ -89,7 +104,7 @@ class Schedule {
     });
     arraySelected.forEach((el) => {
       el.addEventListener('change', this, false);
-    });
+    }); */
 
     if (country !== 'world') {
       this.promiseHistory = CovidAPI.getCountryHistory(country)
@@ -106,7 +121,7 @@ class Schedule {
     arrayPromises.push(this.promiseSummary, this.promiseHistory);
     return Promise.all(arrayPromises).then((arr) => {
       [this.objCases, this.arrayDays] = arr;
-      this.drawSchedule(param, option, percent);
+      this.drawSchedule(newParam, option, percent);
     });
   }
 
@@ -137,7 +152,7 @@ class Schedule {
       if (option === 'daily') {
         num = ((this.arrayDays[i][param] - this.arrayDays[i - 1][param])
           / population) * (10 ** 5);
-      } else if (option === 'cumulative') {
+      } else if (option === 'total') {
         num = (this.arrayDays[i][param] / population) * (10 ** 5);
       }
       if (num < 0) num = 0;
@@ -157,7 +172,7 @@ class Schedule {
       let num;
       if (option === 'daily') {
         num = this.arrayDays[i][param] - this.arrayDays[i - 1][param];
-      } else if (option === 'cumulative') {
+      } else if (option === 'total') {
         num = this.arrayDays[i][param];
       }
       if (num < 0) num = 0;
@@ -181,7 +196,7 @@ class Schedule {
       this.color = 'rgb(41, 181, 20)';
     }
 
-    if (option === 'cumulative') {
+    if (option === 'total') {
       this.type = 'bubble';
     } else this.type = 'bar';
     this.arr = [];
@@ -204,7 +219,7 @@ class Schedule {
           callbacks: {
             label(tooltipItem) {
               let label = '';
-              if (option === 'cumulative') {
+              if (option === 'total') {
                 label += `${tooltipItem.xLabel}:${tooltipItem.yLabel}`;
               } else {
                 label += tooltipItem.yLabel;

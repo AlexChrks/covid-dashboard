@@ -32,7 +32,11 @@ export default class App {
     this.countries.createList();
     this.countriesSelectPanel.containerSelect.addEventListener('change', this.selectPanelsHandle);
 
+    this.scheduleWidget = this.generalGrid.getElementsByClassName('graph_widget').item(0);
+    this.scheduleSelectPanel = new SelectPanel('schedulewidget', this.scheduleWidget);
+    this.selectPanelsArray.push(this.scheduleSelectPanel);
     this.schedule = new Schedule();
+    this.scheduleSelectPanel.containerSelect.addEventListener('change', this.selectPanelsHandle);
 
     MapWidget.init();
     this.createPopup();
@@ -44,6 +48,7 @@ export default class App {
       panel.paramSelect.selectedIndex = stateShort.param;
       panel.percentSelect.selectedIndex = stateShort.percent;
     });
+    this.schedule.createSchedule('world', state.param, state.time, state.percent);
     this.info.update(state.percent, state.time, state.param, 'world');
     this.countries.createList();
   }
