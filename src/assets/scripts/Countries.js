@@ -42,7 +42,7 @@ class CountriesList {
     };
 
     CovidAPI.getSummary().then((database) => {
-      console.log(database.countries);
+      // console.log(database.countries);
 
       database.countries.forEach((country) => {
         const countryRow = document.createElement('div');
@@ -95,7 +95,6 @@ class CountriesList {
 
       this.rows = document.querySelectorAll('.country-row');
       const arr = [...this.rows];
-      console.log(arr);
       arr.sort((a, b) => (Number(a.lastChild.innerHTML) > Number(b.lastChild.innerHTML) ? -1 : 1));
       this.listContainer.innerHTML = '';
       arr.forEach((item) => {
