@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
+
 html {
   box-sizing: border-box;
   font-size: 10px;
-  font-family: 'Quicksand', sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
   color: #d2d2d2;
 }
 
@@ -103,6 +106,17 @@ main {
   flex-wrap: wrap;
   justify-content: space-around;
 }
+
+.infocontainer {
+  margin-top: 2rem;
+  font-size: 5rem;
+  text-align: center;
+}
+
+.infocontainer > p {
+  margin-bottom: 1rem;
+}
+
 /* _________________________________________footer */
 
 footer {
@@ -141,7 +155,123 @@ footer, footer .wrapper {
   font-size: 1,4rem;
   transition: 0.3s ease-out;
 }
+/* _________________________________________countries: */
+.countries_widget {
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
 
+.countriesForm {
+  padding: 5px;
+}
+
+.inputCity {
+  width: 80%;
+  height: 30px;
+  border-radius: 5px;
+  outline: none;
+  background: rgba(173 173 173 / 50%);
+  font-family: 'Quicksand', sans-serif;
+  color: #d2d2d2;
+  
+}
+.city-button, .keyboard-button {
+  width: 10%;
+  height: 30px;
+  border: none;
+  background: rgba(0, 0, 0, .65);
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  outline: none;
+}
+
+.city-button:before {
+  content: "\f002";
+  font-family: FontAwesome;
+  font-size: 16px;
+  color: #fff;
+}
+
+.keyboard-button:before {
+  content: "\f11c";
+  font-family: FontAwesome;
+  font-size: 16px;
+  color: #fff;
+}
+
+.city-button:active, .keyboard-button:active {
+  opacity: .5;
+  transition: 0.3s ease-out;
+}
+
+.city-button:hover, .keyboard-button:hover {
+  transition: 0.3s ease-out;
+  background-color:#ff0000;
+}
+
+.country-row {
+  display: flex;
+  column-gap: 20px;
+  align-items: center;
+  transition: 0.3s ease-out;
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.4rem;
+  background-color: rgba(0, 0, 0, .23);
+  padding: 10px;
+  margin: 5px;
+  border-radius: 10px;
+}
+
+.country-row:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, .65);
+  transition: 0.3s ease-out;
+}
+
+.country-flag {
+  width: 10%;
+}
+
+.country-total {
+  width: 20%;
+  font-weight: bold;
+}
+
+.country-name {
+  width: 50%;
+  text-align: left;
+}
+
+.select-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+select {
+  background: none;
+  border: none;
+  font-family: 'Open Sans';
+  font-size: 1.4rem;
+  background-color: #464651;
+  color: #d2d2d2;
+  margin: 4px;
+  outline: none;
+  transition: 0.3s ease-out;
+}
+
+select:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+  transition: 0.3s ease-out;
+}
+
+option:hover {
+  background-color: #ff0000;
+}
 /* _________________________________________hover: */
 
 .rss_logo:hover {
