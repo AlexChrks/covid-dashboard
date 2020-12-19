@@ -2,6 +2,7 @@ import OptionsPanel from './OptionsPanel.js';
 import Schedule from './Schedule.js';
 import { MapWidget } from './map.js';
 import Info from './Info.js';
+import CountriesList from './Countries.js';
 
 export default class App {
   constructor(summary, lastUpdatedLabel, generalGrid) {
