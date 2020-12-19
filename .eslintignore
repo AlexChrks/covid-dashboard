@@ -1,3 +1,5 @@
 dist
 node_modules
 postcss.config.js
+src/assets/scripts/leaflet-src.js
+src/assets/scripts/Chart.bundle.min.js

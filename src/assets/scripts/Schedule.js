@@ -1,5 +1,6 @@
 import Chart from './Chart.bundle.min.js';
 import CovidAPI from './Covid19API.js';
+import Selects from './Selects.js';
 
 class Schedule {
   constructor() {
