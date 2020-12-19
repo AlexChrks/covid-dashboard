@@ -103,6 +103,16 @@ main {
   flex-wrap: wrap;
   justify-content: space-around;
 }
+
+.infocontainer {
+  margin-top: 2rem;
+  font-size: 5rem;
+  text-align: center;
+}
+
+.infocontainer > p {
+  margin-bottom: 1rem;
+}
 /* _________________________________________footer */
 
 footer {
