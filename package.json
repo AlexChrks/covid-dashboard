@@ -24,12 +24,16 @@
   "homepage": "https://github.com/AlexChrks/covid-dashboard#readme",
   "devDependencies": {
     "@babel/cli": "^7.12.8",
-    "@babel/core": "^7.6.0",
+    "@babel/core": "^7.12.10",
     "@babel/eslint-parser": "^7.12.1",
     "@babel/eslint-plugin": "^7.12.1",
     "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/preset-env": "^7.6.0",
     "babel-eslint": "^8.2.6",
+<<<<<<< HEAD
+=======
+    "babel-loader": "^8.2.2",
+>>>>>>> 992088329a0b7054f9db98e3d0ae84d9e7b94ff6
     "css-loader": "^5.0.1",
     "eslint": "^7.13.0",
     "eslint-config-airbnb-base": "^14.2.1",
@@ -38,7 +42,10 @@
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^4.5.0",
     "image-webpack-loader": "^7.0.1",
+<<<<<<< HEAD
     "jest": "^26.6.3",
+=======
+>>>>>>> 992088329a0b7054f9db98e3d0ae84d9e7b94ff6
     "style-loader": "^2.0.0",
     "webpack": "^5.5.0",
     "webpack-cli": "^4.2.0"

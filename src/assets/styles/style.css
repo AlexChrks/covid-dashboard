@@ -157,7 +157,6 @@ footer, footer .wrapper {
 }
 /* _________________________________________countries: */
 .countries_widget {
-  overflow-y: scroll;
   display: flex;
   flex-direction: column;
   row-gap: 10px;
@@ -271,6 +270,13 @@ select:hover {
 
 option:hover {
   background-color: #ff0000;
+}
+
+.list-container {
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
 }
 /* _________________________________________hover: */
 

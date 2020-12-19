@@ -23,44 +23,14 @@ export default class App {
     this.selectPanelsArray.push(this.infoWidgetSelectPanel);
     this.info = new Info(this.summary);
     this.infoWidget.append(this.info.div);
-    this.infoWidgetSelectPanel.containerSelect.addEventListener('change', () => {
-      const state = {
-        time: this.infoWidgetSelectPanel.timeSelect.children
-          .item(this.infoWidgetSelectPanel.timeSelect.selectedIndex).innerText.toLowerCase().replace(/\s/g, ''),
-        param: this.infoWidgetSelectPanel.paramSelect.children
-          .item(this.infoWidgetSelectPanel.paramSelect.selectedIndex).innerText.toLowerCase().replace(/\s/g, ''),
-        percent: this.infoWidgetSelectPanel.percentSelect.children
-          .item(this.infoWidgetSelectPanel.percentSelect.selectedIndex).innerText.toLowerCase().replace(/\s/g, '')
-      };
-      const stateShort = {
-        time: this.infoWidgetSelectPanel.timeSelect.selectedIndex,
-        param: this.infoWidgetSelectPanel.paramSelect.selectedIndex,
-        percent: this.infoWidgetSelectPanel.percentSelect.selectedIndex
-      };
-      this.updateSelectPanels(state, stateShort);
-    });
+    this.infoWidgetSelectPanel.containerSelect.addEventListener('change', this.selectPanelsHandle);
 
     this.countriesWidget = this.generalGrid.getElementsByClassName('countries_widget').item(0);
     this.countriesSelectPanel = new SelectPanel('countrieswidget', this.countriesWidget);
     this.selectPanelsArray.push(this.countriesSelectPanel);
     this.countries = new CountriesList();
     this.countries.createList();
-    this.countriesSelectPanel.containerSelect.addEventListener('change', () => {
-      const state = {
-        time: this.countriesSelectPanel.timeSelect.children
-          .item(this.countriesSelectPanel.timeSelect.selectedIndex).innerText.toLowerCase().replace(/\s/g, ''),
-        param: this.countriesSelectPanel.paramSelect.children
-          .item(this.countriesSelectPanel.paramSelect.selectedIndex).innerText.toLowerCase().replace(/\s/g, ''),
-        percent: this.countriesSelectPanel.percentSelect.children
-          .item(this.countriesSelectPanel.percentSelect.selectedIndex).innerText.toLowerCase().replace(/\s/g, '')
-      };
-      const stateShort = {
-        time: this.countriesSelectPanel.timeSelect.selectedIndex,
-        param: this.countriesSelectPanel.paramSelect.selectedIndex,
-        percent: this.countriesSelectPanel.percentSelect.selectedIndex
-      };
-      this.updateSelectPanels(state, stateShort);
-    });
+    this.countriesSelectPanel.containerSelect.addEventListener('change', this.selectPanelsHandle);
 
     this.schedule = new Schedule();
 
@@ -75,6 +45,26 @@ export default class App {
       panel.percentSelect.selectedIndex = stateShort.percent;
     });
     this.info.update(state.percent, state.time, state.param, 'world');
+    this.countries.createList();
+  }
+
+  selectPanelsHandle = (event) => {
+    const panelID = event.target.closest('.select-container').id;
+    const panel = this.selectPanelsArray.find((element) => `selectpanel${element.widgetName}` === panelID);
+    const state = {
+      time: panel.timeSelect.children
+        .item(panel.timeSelect.selectedIndex).innerText.toLowerCase().replace(/\s/g, ''),
+      param: panel.paramSelect.children
+        .item(panel.paramSelect.selectedIndex).innerText.toLowerCase().replace(/\s/g, ''),
+      percent: panel.percentSelect.children
+        .item(panel.percentSelect.selectedIndex).innerText.toLowerCase().replace(/\s/g, '')
+    };
+    const stateShort = {
+      time: panel.timeSelect.selectedIndex,
+      param: panel.paramSelect.selectedIndex,
+      percent: panel.percentSelect.selectedIndex
+    };
+    this.updateSelectPanels(state, stateShort);
   }
 
   createPopup() {
