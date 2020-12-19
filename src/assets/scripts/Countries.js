@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 import CovidAPI from './Covid19API.js';
-import Selects from './Selects.js';
 
 class CountriesList {
   constructor() {
@@ -9,8 +8,8 @@ class CountriesList {
   }
 
   createList() {
-    const selects = new Selects(document.querySelector('.countries_widget'));
-    selects.createSelects();
+    // this.selects = new Selects(document.querySelector('.countries_widget'));
+    // this.selects.createSelects();
 
     const searchForm = document.createElement('form');
     searchForm.classList.add('countriesForm');
@@ -36,7 +35,7 @@ class CountriesList {
     };
 
     CovidAPI.getSummary().then((database) => {
-      console.log(database.countries);
+      // console.log(database.countries);
 
       database.countries.forEach((country) => {
         const countryRow = document.createElement('div');

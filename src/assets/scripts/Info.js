@@ -7,12 +7,12 @@ export default class Info {
     this.country = DOMElement.create('p', 'infowidgetcountry', null, this.div);
     this.marker = DOMElement.create('p', 'infowidgetmarker', null, this.div);
     this.value = DOMElement.create('p', 'infowidgetvalue', null, this.div);
-    this.update('absolute', 'total', 'confirmed', 'word');
+    this.update('absolute', 'total', 'confirmed', 'world');
   }
 
   update(people, time, marker, countryCode) {
     let divider = 1;
-    if ((countryCode === 'word') || (countryCode === undefined)) {
+    if ((countryCode === 'world') || (countryCode === undefined)) {
       this.country.innerHTML = 'Word';
       if (people === 'per100k') {
         divider = 100000;
@@ -34,7 +34,7 @@ export default class Info {
             this.value.innerHTML = Math.floor(this.database.global.newRecovered / divider);
           }
           break;
-        case 'death':
+        case 'deaths':
           this.marker.innerHTML = 'Deaths';
           if (time === 'total') {
             this.value.innerHTML = Math.floor(this.database.global.totalDeaths / divider);
