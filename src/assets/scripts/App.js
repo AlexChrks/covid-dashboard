@@ -1,6 +1,7 @@
 import OptionsPanel from './OptionsPanel.js';
 import Schedule from './Schedule.js';
 import { MapWidget } from './map.js';
+import CountriesList from './Countries.js';
 
 export default class App {
   constructor(summary, lastUpdatedLabel, generalGrid) {
@@ -19,5 +20,7 @@ export default class App {
     this.schedule = new Schedule();
     this.infoWidget.append(this.infoWidgetOptions.div);
     MapWidget.init();
+    this.countries = new CountriesList();
+    this.countries.createList();
   }
 }
