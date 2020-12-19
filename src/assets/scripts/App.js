@@ -32,9 +32,14 @@ export default class App {
     this.countries.createList();
     this.countriesSelectPanel.containerSelect.addEventListener('change', this.selectPanelsHandle);
 
+    this.scheduleWidget = this.generalGrid.getElementsByClassName('graph_widget').item(0);
+    this.scheduleSelectPanel = new SelectPanel('schedulewidget', this.scheduleWidget);
+    this.selectPanelsArray.push(this.scheduleSelectPanel);
     this.schedule = new Schedule();
+    this.scheduleSelectPanel.containerSelect.addEventListener('change', this.selectPanelsHandle);
 
     MapWidget.init();
+    this.createPopup();
   }
 
   updateSelectPanels(state, stateShort) {
@@ -43,6 +48,7 @@ export default class App {
       panel.paramSelect.selectedIndex = stateShort.param;
       panel.percentSelect.selectedIndex = stateShort.percent;
     });
+    this.schedule.createSchedule('world', state.param, state.time, state.percent);
     this.info.update(state.percent, state.time, state.param, 'world');
     this.countries.createList();
   }
@@ -64,5 +70,31 @@ export default class App {
       percent: panel.percentSelect.selectedIndex
     };
     this.updateSelectPanels(state, stateShort);
+  }
+
+  createPopup() {
+    this.buttons = document.querySelectorAll('.full_screen');
+    this.buttons.forEach((el) => {
+      el.addEventListener('click', () => {
+        const parent = el.parentNode.parentNode;
+        if (parent.classList[0] === 'general_grid') {
+          const arr = parent.children;
+          for (let i = 0; i < arr.length; i++) {
+            if (arr[i].classList[0] !== el.parentNode.classList[0]) {
+              arr[i].classList.toggle('widget_display');
+            }
+          }
+        } else {
+          const arr = parent.parentNode.children;
+          for (let i = 0; i < arr.length; i++) {
+            if (arr[i].classList[0] !== parent.classList[0]) {
+              arr[i].classList.toggle('widget_display');
+            }
+          }
+        }
+        document.querySelector('main').classList.toggle('main_content');
+        el.parentNode.classList.toggle('full_screen_popup');
+      });
+    });
   }
 }

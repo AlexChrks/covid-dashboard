@@ -291,6 +291,41 @@ option:hover {
   transition: 0.3s ease-out;
 }
 
+/* popup */
+
+.full_screen_popup {
+  position: fixed !important;
+  top: 11%;
+  bottom: 11%;
+  left: 1%;
+  right: 1%;
+  width: 98%;
+  z-index: 1500;
+  height: 78%;
+}
+
+.schedule_inside {
+  position: relative;
+  margin: auto;
+  margin-top: 10px;
+  height: 82%;
+  width: 90%;
+}
+
+.full_screen {
+  position: absolute;
+  z-index: 1000;
+}
+
+.widget_display {
+  display: none;
+}
+
+.main_content {
+  height: 80vh !important;
+  margin: 0 !important;
+}
+
 /* _________________________________________media */
 
 @media screen and (max-width: 1024px) {

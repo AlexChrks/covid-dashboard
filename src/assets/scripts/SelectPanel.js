@@ -18,9 +18,8 @@ export default class SelectPanel {
     this.percentSelect = DOMElement.create('select', 'select-percent', null, this.containerSelect,
       ['id', `selectpercent${this.widgetName}`]);
 
-    this.timeDaily = DOMElement.create('option', 'select-option', 'Daily', this.timeSelect,
-      ['selected', 'selected']);
-    this.timeTotal = DOMElement.create('option', 'select-option', 'Total', this.timeSelect);
+    this.timeDaily = DOMElement.create('option', 'select-option', 'Daily', this.timeSelect);
+    this.timeTotal = DOMElement.create('option', 'select-option', 'Total', this.timeSelect, ['selected', 'selected']);
 
     this.paramConfirmed = DOMElement.create('option', 'select-option', 'Confirmed', this.paramSelect,
       ['selected', 'selected']);
