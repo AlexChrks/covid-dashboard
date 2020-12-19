@@ -11,57 +11,11 @@ class Schedule {
     this.graphWidget = document.querySelector('.graph_widget');
     this.scheduleInside = document.createElement('div');
     this.canvas = document.createElement('canvas');
-    /* this.containerSelect = document.createElement('div');
-
-    this.optionSelect = document.createElement('select');
-    this.paramSelect = document.createElement('select');
-    this.percentSelect = document.createElement('select');
-
-    this.paramCases = document.createElement('option');
-    this.paramDeaths = document.createElement('option');
-    this.paramRecovered = document.createElement('option');
-    this.optionDaily = document.createElement('option');
-    this.optionTotal = document.createElement('option');
-    this.percentAbs = document.createElement('option');
-    this.percentPer100k = document.createElement('option');
-
-    this.paramCases.innerText = 'Cases';
-    this.paramDeaths.innerText = 'Deaths';
-    this.paramRecovered.innerText = 'Recovered';
-    this.optionDaily.innerText = 'Daily';
-    this.optionTotal.innerText = 'Cumulative';
-    this.percentAbs.innerText = 'Absolute';
-    this.percentPer100k.innerText = 'Per 100k';
-
-    this.paramCases.value = 'totalConfirmed';
-    this.paramDeaths.value = 'totalDeaths';
-    this.paramRecovered.value = 'totalRecovered';
-    this.optionDaily.value = 'daily';
-    this.optionTotal.value = 'cumulative';
-    this.percentAbs.value = 'absolute';
-    this.percentPer100k.value = 'per100k';
-
-    this.paramCases.setAttribute('selected', 'selected');
-    this.optionTotal.setAttribute('selected', 'selected');
-    this.percentAbs.setAttribute('selected', 'selected');
-
-    this.containerSelect.className = 'schedule_select'; */
     this.scheduleInside.className = 'schedule_inside';
-
     this.canvas.id = 'myChart';
-    /* this.optionSelect.id = 'select_option';
-    this.paramSelect.id = 'select_param';
-    this.percentSelect.id = 'select_percent'; */
-
     this.ctx = this.canvas.getContext('2d');
-
-    /* this.optionSelect.append(this.optionDaily, this.optionTotal);
-    this.paramSelect.append(this.paramCases, this.paramDeaths, this.paramRecovered);
-    this.percentSelect.append(this.percentAbs, this.percentPer100k);
-
-    this.containerSelect.append(this.paramSelect, this.optionSelect, this.percentSelect); */
     this.scheduleInside.append(this.canvas);
-    this.graphWidget.append(this.scheduleInside /* , this.containerSelect */);
+    this.graphWidget.append(this.scheduleInside);
     return this.graphWidget;
   }
 
@@ -84,28 +38,6 @@ class Schedule {
         newParam = param;
         break;
     }
-    /* const selectParam = document.getElementById('select_param');
-    const selectOption = document.getElementById('select_option');
-    const selectPercent = document.getElementById('select_percent');
-    const arraySelected = [];
-    arraySelected.push(selectParam, selectOption, selectPercent);
-    setTimeout(() => {
-      selectParam.value = param;
-      selectOption.value = option;
-      selectPercent.value = percent;
-    }, 200);
-    this.handleEvent = (e) => {
-      if (e.type === 'change') {
-        this.drawSchedule(selectParam.value, selectOption.value, selectPercent.value);
-      }
-    };
-    arraySelected.forEach((el) => {
-      el.removeEventListener('change', this, false);
-    });
-    arraySelected.forEach((el) => {
-      el.addEventListener('change', this, false);
-    }); */
-
     if (country !== 'world') {
       this.promiseHistory = CovidAPI.getCountryHistory(country)
         .then((database) => database)
