@@ -74,5 +74,6 @@ export default class App {
       panel.percentSelect.selectedIndex = stateShort.percent;
     });
     this.info.update(state.percent, state.time, state.param, 'world');
+    this.countries.createList();
   }
 }

@@ -5,37 +5,44 @@ class CountriesList {
   constructor() {
     this.list = 'one';
     this.countriesContainer = document.querySelector('.countries_widget');
+    this.selectTime = document.querySelector('#selecttimecountrieswidget');
+    this.selectParam = document.querySelector('#selectparamcountrieswidget');
+    this.selectPercent = document.querySelector('#selectpercentcountrieswidget');
+
+    this.searchForm = document.createElement('form');
+    this.searchForm.classList.add('countriesForm');
+
+    this.searchField = document.createElement('input');
+    this.searchField.setAttribute('type', 'text');
+    this.searchField.classList.add('inputCity');
+    this.searchForm.appendChild(this.searchField);
+
+    this.searchButton = document.createElement('button');
+    this.searchButton.setAttribute('type', 'submit');
+    this.searchButton.classList.add('city-button');
+    this.searchForm.appendChild(this.searchButton);
+
+    this.switchKeyboard = document.createElement('button');
+    this.switchKeyboard.classList.add('b_getCity', 'keyboard-button');
+    this.searchForm.appendChild(this.switchKeyboard);
+    this.countriesContainer.appendChild(this.searchForm);
+
+    this.listContainer = document.createElement('div');
+    this.listContainer.classList.add('list-container');
+    this.countriesContainer.appendChild(this.listContainer);
   }
 
   createList() {
     // this.selects = new Selects(document.querySelector('.countries_widget'));
     // this.selects.createSelects();
-
-    const searchForm = document.createElement('form');
-    searchForm.classList.add('countriesForm');
-
-    const searchField = document.createElement('input');
-    searchField.setAttribute('type', 'text');
-    searchField.classList.add('inputCity');
-    searchForm.appendChild(searchField);
-
-    const searchButton = document.createElement('button');
-    searchButton.setAttribute('type', 'submit');
-    searchButton.classList.add('city-button');
-    searchForm.appendChild(searchButton);
-
-    const switchKeyboard = document.createElement('button');
-    switchKeyboard.classList.add('b_getCity', 'keyboard-button');
-    searchForm.appendChild(switchKeyboard);
-
-    this.countriesContainer.appendChild(searchForm);
+    this.listContainer.innerHTML = '';
 
     document.querySelector('.city-button').onclick = (e) => {
       e.preventDefault();
     };
 
     CovidAPI.getSummary().then((database) => {
-      // console.log(database.countries);
+      console.log(database.countries);
 
       database.countries.forEach((country) => {
         const countryRow = document.createElement('div');
@@ -51,13 +58,41 @@ class CountriesList {
 
         const total = document.createElement('div');
         total.classList.add('country-total');
-        total.innerHTML = country.totalConfirmed;
+        console.log(this.selectTime.value);
+
+        if (this.selectParam.value === 'Confirmed') {
+          if (this.selectTime.value === 'Daily') {
+            total.innerHTML = country.newConfirmed;
+          } else {
+            total.innerHTML = country.totalConfirmed;
+          }
+        }
+        if (this.selectParam.value === 'Deaths') {
+          if (this.selectTime.value === 'Daily') {
+            total.innerHTML = country.newDeaths;
+          } else {
+            total.innerHTML = country.totalDeaths;
+          }
+        }
+        if (this.selectParam.value === 'Recovered') {
+          if (this.selectTime.value === 'Daily') {
+            total.innerHTML = country.newRecovered;
+          } else {
+            total.innerHTML = country.totalRecovered;
+          }
+        }
+        console.log(this.selectPercent.value);
+
+        if (this.selectPercent.value === 'Per 100k') {
+          const per100k = Number(total.innerHTML) / 100000;
+          total.innerHTML = Math.round(per100k);
+        }
 
         countryRow.appendChild(countryFlag);
         countryRow.appendChild(countryName);
         countryRow.appendChild(total);
 
-        this.countriesContainer.appendChild(countryRow);
+        this.listContainer.appendChild(countryRow);
       });
     }).catch((error) => console.log(error.message));
   }
