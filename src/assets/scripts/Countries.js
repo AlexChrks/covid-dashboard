@@ -45,6 +45,9 @@ class CountriesList {
     document.querySelector('.city-button').onclick = (e) => {
       e.preventDefault();
     };
+    document.querySelector('.keyboard-button').onclick = (e) => {
+      e.preventDefault();
+    };
 
     CovidAPI.getSummary().then((database) => {
       // console.log(database.countries);
@@ -105,7 +108,29 @@ class CountriesList {
       arr.forEach((item) => {
         this.listContainer.appendChild(item);
       });
+      this.sortedRows = document.querySelectorAll('.country-row');
+      this.liveSearch();
     }).catch((error) => console.log(error.message));
+  }
+
+  liveSearch() {
+    this.searchField.addEventListener('input', () => {
+      const value = this.searchField.value.trim().toLowerCase();
+      if (value !== '') {
+        this.sortedRows.forEach((row) => {
+          if (row.children[1].innerText.toLowerCase().search(value) === -1) {
+            row.classList.add('hide');
+          } else {
+            row.classList.remove('hide');
+          }
+        });
+      } else {
+        this.sortedRows.forEach((row) => {
+          row.classList.remove('hide');
+        });
+      }
+      console.log(value);
+    });
   }
 }
 

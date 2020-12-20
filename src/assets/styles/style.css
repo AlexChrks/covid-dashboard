@@ -165,26 +165,38 @@ footer, footer .wrapper {
 
 .countriesForm {
   padding: 5px;
+  text-align: center;
 }
 
 .inputCity {
-  width: 80%;
+  width: 75%;
   height: 30px;
-  border-radius: 5px;
+  border-radius: 5px 0 0 5px;
   outline: none;
   background: rgba(173 173 173 / 50%);
   font-family: 'Quicksand', sans-serif;
   color: #d2d2d2;
+  border: none;
   
 }
 .city-button, .keyboard-button {
   width: 10%;
   height: 30px;
   border: none;
-  background: rgba(0, 0, 0, .65);
-  border-radius: 0 5px 5px 0;
   cursor: pointer;
   outline: none;
+}
+
+.city-button {
+  background-color: #84848b;
+  border-radius: 0 5px 5px 0;
+
+}
+
+.keyboard-button {
+  background: #464651;
+  border-radius: 5px;
+  margin-left: 5px;
 }
 
 .city-button:before {
@@ -201,14 +213,9 @@ footer, footer .wrapper {
   color: #fff;
 }
 
-.city-button:active, .keyboard-button:active {
+.keyboard-button:active {
   opacity: .5;
   transition: 0.3s ease-out;
-}
-
-.city-button:hover, .keyboard-button:hover {
-  transition: 0.3s ease-out;
-  background-color:#ff0000;
 }
 
 .country-row {
@@ -223,12 +230,6 @@ footer, footer .wrapper {
   padding: 10px;
   margin: 5px;
   border-radius: 10px;
-}
-
-.country-row:hover {
-  cursor: pointer;
-  background-color: rgba(0, 0, 0, .65);
-  transition: 0.3s ease-out;
 }
 
 .country-flag {
@@ -263,21 +264,17 @@ select {
   transition: 0.3s ease-out;
 }
 
-select:hover {
-  cursor: pointer;
-  transform: scale(1.1);
-  transition: 0.3s ease-out;
-}
-
-option:hover {
-  background-color: #ff0000;
-}
-
 .list-container {
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
   row-gap: 10px;
+}
+
+.autocomplete {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 /* _________________________________________hover: */
 
@@ -351,6 +348,30 @@ option:hover {
   margin: 0 !important;
 }
 
+.keyboard-button:hover {
+  transition: 0.3s ease-out;
+  background-color:#0887af;
+}
+
+select:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+  transition: 0.3s ease-out;
+}
+
+.country-row:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, .65);
+  transition: 0.3s ease-out;
+}
+
+option:hover {
+  background-color: #ff0000;
+}
+
+.city-button:hover {
+  cursor: default;
+} 
 
 /* _________________________________________media */
 
@@ -415,4 +436,10 @@ option:hover {
   .logo_container {
     width: 310px;
   }
+}
+
+/* _________________________________________helpers */
+
+.hide {
+  display: none;
 }
