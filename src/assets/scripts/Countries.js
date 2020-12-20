@@ -11,20 +11,25 @@ class CountriesList {
 
     this.searchForm = document.createElement('form');
     this.searchForm.classList.add('countriesForm');
+    this.searchForm.setAttribute('autocomplete', 'off');
+
+    this.autocompleteBlock = document.createElement('div');
+    this.autocompleteBlock.classList.add('autocomplete');
 
     this.searchField = document.createElement('input');
     this.searchField.setAttribute('type', 'text');
     this.searchField.classList.add('inputCity');
-    this.searchForm.appendChild(this.searchField);
+    this.autocompleteBlock.appendChild(this.searchField);
 
     this.searchButton = document.createElement('button');
     this.searchButton.setAttribute('type', 'submit');
     this.searchButton.classList.add('city-button');
-    this.searchForm.appendChild(this.searchButton);
+    this.autocompleteBlock.appendChild(this.searchButton);
 
     this.switchKeyboard = document.createElement('button');
     this.switchKeyboard.classList.add('b_getCity', 'keyboard-button');
-    this.searchForm.appendChild(this.switchKeyboard);
+    this.autocompleteBlock.appendChild(this.switchKeyboard);
+    this.searchForm.appendChild(this.autocompleteBlock);
     this.countriesContainer.appendChild(this.searchForm);
 
     this.listContainer = document.createElement('div');

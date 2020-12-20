@@ -78,6 +78,7 @@ main {
 .countries_widget, .map_widget, .info_widget, .graph_widget {
   background-color: #5b5b69;
   border-radius: 10px;
+  position: relative;
 }
 
 .optionspanel {
@@ -188,7 +189,7 @@ footer, footer .wrapper {
 
 .city-button:before {
   content: "\f002";
-  font-family: FontAwesome;
+  font-family: FontAwesome; /*f0b2 */
   font-size: 16px;
   color: #fff;
 }
@@ -315,6 +316,30 @@ option:hover {
 .full_screen {
   position: absolute;
   z-index: 1000;
+  background: rgb(70 70 81);
+  border-radius: 5px;
+  margin: 6px;
+  outline: none;
+  top: 0;
+  right: 0;
+  border: none;
+}
+
+.full_screen::before {
+  content: "\f0b2";
+  font-family: FontAwesome;
+  font-size: 16px;
+  color: #d2d2d2;
+}
+
+.full_screen:hover {
+  cursor: pointer;
+  transition: 0.1s ease-out;
+  transform: scale(1.1);
+}
+
+.full_screen:active {
+  opacity: .4;
 }
 
 .widget_display {
@@ -325,6 +350,7 @@ option:hover {
   height: 80vh !important;
   margin: 0 !important;
 }
+
 
 /* _________________________________________media */
 
