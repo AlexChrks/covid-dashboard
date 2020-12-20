@@ -38,8 +38,6 @@ class CountriesList {
   }
 
   createList() {
-    // this.selects = new Selects(document.querySelector('.countries_widget'));
-    // this.selects.createSelects();
     this.listContainer.innerHTML = '';
 
     document.querySelector('.city-button').onclick = (e) => {
@@ -55,6 +53,9 @@ class CountriesList {
       database.countries.forEach((country) => {
         const countryRow = document.createElement('div');
         countryRow.classList.add('country-row');
+
+        countryRow.setAttribute('data-countryslug', `${country.slug}`);
+        countryRow.setAttribute('data-countrycode', `${country.countryCode}`);
 
         const countryFlag = document.createElement('img');
         countryFlag.classList.add('country-flag');
