@@ -11,20 +11,25 @@ class CountriesList {
 
     this.searchForm = document.createElement('form');
     this.searchForm.classList.add('countriesForm');
+    this.searchForm.setAttribute('autocomplete', 'off');
+
+    this.autocompleteBlock = document.createElement('div');
+    this.autocompleteBlock.classList.add('autocomplete');
 
     this.searchField = document.createElement('input');
     this.searchField.setAttribute('type', 'text');
     this.searchField.classList.add('inputCity');
-    this.searchForm.appendChild(this.searchField);
+    this.autocompleteBlock.appendChild(this.searchField);
 
     this.searchButton = document.createElement('button');
     this.searchButton.setAttribute('type', 'submit');
     this.searchButton.classList.add('city-button');
-    this.searchForm.appendChild(this.searchButton);
+    this.autocompleteBlock.appendChild(this.searchButton);
 
     this.switchKeyboard = document.createElement('button');
     this.switchKeyboard.classList.add('b_getCity', 'keyboard-button');
-    this.searchForm.appendChild(this.switchKeyboard);
+    this.autocompleteBlock.appendChild(this.switchKeyboard);
+    this.searchForm.appendChild(this.autocompleteBlock);
     this.countriesContainer.appendChild(this.searchForm);
 
     this.listContainer = document.createElement('div');
@@ -42,7 +47,7 @@ class CountriesList {
     };
 
     CovidAPI.getSummary().then((database) => {
-      console.log(database.countries);
+      // console.log(database.countries);
 
       database.countries.forEach((country) => {
         const countryRow = document.createElement('div');
@@ -58,7 +63,6 @@ class CountriesList {
 
         const total = document.createElement('div');
         total.classList.add('country-total');
-        console.log(this.selectTime.value);
 
         if (this.selectParam.value === 'Confirmed') {
           if (this.selectTime.value === 'Daily') {
@@ -81,7 +85,6 @@ class CountriesList {
             total.innerHTML = country.totalRecovered;
           }
         }
-        console.log(this.selectPercent.value);
 
         if (this.selectPercent.value === 'Per 100k') {
           const per100k = Number(total.innerHTML) / 100000;
@@ -93,6 +96,14 @@ class CountriesList {
         countryRow.appendChild(total);
 
         this.listContainer.appendChild(countryRow);
+      });
+
+      this.rows = document.querySelectorAll('.country-row');
+      const arr = [...this.rows];
+      arr.sort((a, b) => (Number(a.lastChild.innerHTML) > Number(b.lastChild.innerHTML) ? -1 : 1));
+      this.listContainer.innerHTML = '';
+      arr.forEach((item) => {
+        this.listContainer.appendChild(item);
       });
     }).catch((error) => console.log(error.message));
   }
