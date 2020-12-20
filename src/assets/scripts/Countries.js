@@ -38,11 +38,12 @@ class CountriesList {
   }
 
   createList() {
-    // this.selects = new Selects(document.querySelector('.countries_widget'));
-    // this.selects.createSelects();
     this.listContainer.innerHTML = '';
 
     document.querySelector('.city-button').onclick = (e) => {
+      e.preventDefault();
+    };
+    document.querySelector('.keyboard-button').onclick = (e) => {
       e.preventDefault();
     };
 
@@ -52,6 +53,9 @@ class CountriesList {
       database.countries.forEach((country) => {
         const countryRow = document.createElement('div');
         countryRow.classList.add('country-row');
+
+        countryRow.setAttribute('data-countryslug', `${country.slug}`);
+        countryRow.setAttribute('data-countrycode', `${country.countryCode}`);
 
         const countryFlag = document.createElement('img');
         countryFlag.classList.add('country-flag');
@@ -105,7 +109,29 @@ class CountriesList {
       arr.forEach((item) => {
         this.listContainer.appendChild(item);
       });
+      this.sortedRows = document.querySelectorAll('.country-row');
+      this.liveSearch();
     }).catch((error) => console.log(error.message));
+  }
+
+  liveSearch() {
+    this.searchField.addEventListener('input', () => {
+      const value = this.searchField.value.trim().toLowerCase();
+      if (value !== '') {
+        this.sortedRows.forEach((row) => {
+          if (row.children[1].innerText.toLowerCase().search(value) === -1) {
+            row.classList.add('hide');
+          } else {
+            row.classList.remove('hide');
+          }
+        });
+      } else {
+        this.sortedRows.forEach((row) => {
+          row.classList.remove('hide');
+        });
+      }
+      console.log(value);
+    });
   }
 }
 
