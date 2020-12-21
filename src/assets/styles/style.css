@@ -329,7 +329,7 @@ select {
   color: #d2d2d2;
 }
 
-.full_screen:hover {
+.full_screen:hover, .legend_icon:hover {
   cursor: pointer;
   transition: 0.1s ease-out;
   transform: scale(1.1);
@@ -446,6 +446,24 @@ option:hover {
 
 .hide {
   display: none;
+}
+
+.legend_icon {
+  right: 35px;
+  top: 6px;
+	z-index: 100;
+  position: absolute;
+  background: rgb(70 70 81);
+  outline: none;
+  border: none;
+  border-radius: 5px;
+}
+
+.legend_icon::before {
+  content: "\f022";
+  font-family: FontAwesome;
+  font-size: 16px;
+  color: #d2d2d2;
 }
 
 .leaflet-control-attribution {

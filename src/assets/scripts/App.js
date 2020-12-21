@@ -3,6 +3,7 @@ import Schedule from './Schedule.js';
 import { MapWidget } from './map.js';
 import CountriesList from './Countries.js';
 import Info from './Info.js';
+import { Map } from './leaflet-src.js';
 
 export default class App {
   constructor(summary, lastUpdatedLabel, generalGrid) {
@@ -41,7 +42,11 @@ export default class App {
     this.schedule = new Schedule();
     this.scheduleSelectPanel.containerSelect.addEventListener('change', this.selectPanelsHandle);
 
+    this.mapWidget = this.generalGrid.getElementsByClassName('map_widget').item(0);
+    this.mapSelectPanel = new SelectPanel('map_widget', this.mapWidget);
+    this.selectPanelsArray.push(this.mapSelectPanel);
     MapWidget.init();
+    this.mapSelectPanel.containerSelect.addEventListener('change', this.selectPanelsHandle);
     this.createPopup();
   }
 
@@ -108,6 +113,7 @@ export default class App {
         this.selectedCountry.countryCode);
       this.schedule.createSchedule(this.selectedCountry.countryCode, this.selectPanelsState.param,
         this.selectPanelsState.time, this.selectPanelsState.percent);
+      MapWidget.focusCountry(this.selectedCountry.countryCode);
     }
   };
 }
