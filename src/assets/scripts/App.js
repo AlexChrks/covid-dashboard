@@ -3,6 +3,7 @@ import Schedule from './Schedule.js';
 import { MapWidget } from './map.js';
 import CountriesList from './Countries.js';
 import Info from './Info.js';
+import { Map } from './leaflet-src.js';
 
 export default class App {
   constructor(summary, lastUpdatedLabel, generalGrid) {

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /*
 Example for use
 import { MapWidget } from './map.js';
@@ -41,7 +40,9 @@ const MapContainer = {
     const legend = document.createElement('div');
     legend.classList.add('map_legend');
     mapBlock.appendChild(legend);
-    const buttonLegend = document.querySelector('.legend_icon');
+    const buttonLegend = document.createElement('button');
+    buttonLegend.classList.add('legend_icon');
+    mapBlock.appendChild(buttonLegend);
     buttonLegend.addEventListener('click', () => {
       if (legend.classList.contains('map_legend_active')) {
         legend.classList.remove('map_legend_active');
@@ -170,8 +171,11 @@ const MapContainer = {
             color: colorCircle,
             fillColor: colorCircle,
             fillOpacity: 0.7,
-            radius: radiusCircle
+            radius: radiusCircle,
+            className: `countrycode-${country[i].countryCode} slug-${country[i].slug}`
           });
+          circle.countryCode = country[i].countryCode;
+          circle.latLon = country[i].latLon;
           this.elements.circles.push(circle);
           circle.addTo(MapContainer.elements.mapImg).on('click', () => {
             MapContainer.focusMap(country[i], cases, circle);
@@ -225,13 +229,14 @@ const MapContainer = {
   },
 
   focusCountry(countryCode) {
-    CovidAPI.getSummary().then((database) => {
-      for (let i = 0; i < database.countries.length; i += 1) {
-        if (database.countries[i].countryCode === countryCode) {
-          this.elements.mapImg.setView([database.countries[i].latLon[0], database.countries[i].latLon[1]], 5);
-        }
+    const circlesList = this.elements.circles;
+    // this.elements.mapImg.setZoom(2);
+    for (let i = 0; i < circlesList.length; i += 1) {
+      if (circlesList[i].countryCode === countryCode) {
+        this.elements.mapImg.setView([circlesList[i].latLon[0], circlesList[i].latLon[1]], 4,
+          { animate: true, duration: 0.5 });
       }
-    }).catch((error) => console.log(error.message));
+    }
   }
 
 };
