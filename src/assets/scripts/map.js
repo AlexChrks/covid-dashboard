@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*
 Example for use
 import { MapWidget } from './map.js';

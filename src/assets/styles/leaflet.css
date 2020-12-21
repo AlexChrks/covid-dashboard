@@ -10,7 +10,6 @@
 	z-index: 100;
 	width: 200px;
 	background: #434347;
-	border-radius: 10px;
 	top: 30px;
 	right: 10px;
 	font-size: 14px;
@@ -41,6 +40,13 @@
 	justify-content: center;
 	align-items: center;
 	padding-right: 10px;
+}
+
+.map_select {
+	position: absolute;
+	z-index: 100;
+	bottom: 10px;
+	left: 10px;
 }
 
 .map_popap {
