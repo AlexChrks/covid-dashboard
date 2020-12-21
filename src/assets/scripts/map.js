@@ -37,9 +37,26 @@ const MapContainer = {
       minZoom: 1
     });
     this.elements.mapImg.addLayer(layer);
-    const selectParam = document.getElementById('map_select_param');
-    const selectOption = document.getElementById('map_select_option');
-    const selectPercent = document.getElementById('map_select_percent');
+    const legend = document.createElement('div');
+    legend.classList.add('map_legend');
+    mapBlock.appendChild(legend);
+    const buttonLegend = document.querySelector('.legend_icon');
+    buttonLegend.addEventListener('click', () => {
+      if (legend.classList.contains('map_legend_active')) {
+        legend.classList.remove('map_legend_active');
+      } else {
+        legend.classList.add('map_legend_active');
+      }
+    });
+    const popapMap = document.createElement('div');
+    popapMap.classList.add('map_popap');
+    mapBlock.appendChild(popapMap);
+    popapMap.addEventListener('click', () => { popapMap.classList.remove('popap_active'); });
+    const select = mapBlock.querySelector('.select-container');
+    select.classList.add('map_select');
+    const selectParam = document.getElementById('selectparammap_widget');
+    const selectOption = document.getElementById('selecttimemap_widget');
+    const selectPercent = document.getElementById('selectpercentmap_widget');
     const arraySelected = [];
     arraySelected.push(selectParam, selectOption, selectPercent);
     this.param = selectParam.value;
@@ -65,7 +82,7 @@ const MapContainer = {
     }
     let colorCircle;
     let factor = 1;
-    let param = parametr;
+    let param = `total${parametr}`;
     if (param === 'totalConfirmed') {
       colorCircle = 'rgba(8,138,179,0.7)';
       factor = 10000;
@@ -76,16 +93,16 @@ const MapContainer = {
       colorCircle = 'green';
       factor = 5000;
     }
-    if (option === 'daily') {
+    if (option === 'Daily') {
       param = `new${param.substr(5)}`;
       factor /= 100;
     }
-    if (percent === 'per100k') {
+    if (percent === 'Per 100k') {
       if (param === 'totalConfirmed' || param === 'newConfirmed') { factor /= 1000; }
       if (param === 'totalDeaths' || param === 'totalRecovered') { factor /= 200; }
       if (param === 'newDeaths') { factor = 1; }
-      if ((param === 'newRecovered' || param === 'newConfirmed') && option === 'daily') { factor = 15; }
-      if ((param === 'totalDeaths' || param === 'totalRecovered') && option === 'daily') { factor /= 500; }
+      if ((param === 'newRecovered' || param === 'newConfirmed') && option === 'Daily') { factor = 15; }
+      if ((param === 'totalDeaths' || param === 'totalRecovered') && option === 'Daily') { factor /= 500; }
     }
     MapContainer.createLegend(factor, colorCircle);
     CovidAPI.getSummary().then((database) => {
@@ -94,12 +111,12 @@ const MapContainer = {
       for (let i = 0; i < database.countries.length; i += 1) {
         let radiusCircle;
         let cases;
-        if (percent === 'per100k') {
+        if (percent === 'Per 100k') {
           cases = Math.ceil((country[i][param] / country[i].population) * 100000);
         } else {
           cases = country[i][param];
         }
-        if (option === 'daily' && percent === 'per100k') {
+        if (option === 'Daily' && percent === 'Per 100k') {
           if (cases > Math.floor(6 * factor)) {
             radiusCircle = 15;
           } else if (cases > Math.floor(5 * factor) && cases <= Math.floor(6 * factor)) {
@@ -166,7 +183,7 @@ const MapContainer = {
 
   createLegend(factor, colorCircle) {
     let list = null;
-    if (MapContainer.option === 'daily' && MapContainer.percent === 'per100k') {
+    if (MapContainer.option === 'Daily' && MapContainer.percent === 'Per 100k') {
       list = MapContainer.elements.arrRangeNew;
     } else {
       list = MapContainer.elements.arrRanges;
@@ -200,10 +217,20 @@ const MapContainer = {
     circle.closePopup();
     this.elements.mapImg.setView([dataObj.latLon[0], dataObj.latLon[1]], 5);
     const popapMap = document.querySelector('.map_popap');
+    popapMap.classList.add('popap_active');
     popapMap.innerHTML = `
     ${dataObj.name}<br>
     Confirmed cases: ${Math.floor(causes).toLocaleString()}`;
-    popapMap.style.display = 'block';
+  },
+
+  focusCountry(countryCode) {
+    CovidAPI.getSummary().then((database) => {
+      for (let i = 0; i < database.countries.length; i += 1) {
+        if (database.countries[i].countryCode === countryCode) {
+          this.elements.mapImg.setView([database.countries[i].latLon[0], database.countries[i].latLon[1]], 5);
+        }
+      }
+    }).catch((error) => console.log(error.message));
   }
 
 };
