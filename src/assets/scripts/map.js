@@ -1,12 +1,6 @@
-/*
-Example for use
-import { MapWidget } from './map.js';
-MapWidget.init(); for create map
-MapWidget.confirmedAllTime(); add circles for confirmed cases for all time
-*/
-
 import CovidAPI from './Covid19API.js';
-import './leaflet-src.js';
+// eslint-disable-next-line no-unused-vars
+import { Map } from './leaflet-src.js';
 import '../styles/leaflet.css';
 
 const MapContainer = {
@@ -31,6 +25,7 @@ const MapContainer = {
       zoom: 1,
       zoomDelta: 0.25,
       zoomSnap: 0.5,
+      maxZoom: 2,
       worldCopyJump: true
     };
     // eslint-disable-next-line no-undef
@@ -47,6 +42,10 @@ const MapContainer = {
     const buttonLegend = document.createElement('button');
     buttonLegend.classList.add('legend_icon');
     mapBlock.appendChild(buttonLegend);
+    const fullscreen = mapBlock.querySelector('.full_screen');
+    fullscreen.addEventListener('click', () => {
+      setTimeout(() => { MapContainer.elements.mapImg.invalidateSize(); }, 40);
+    });
     buttonLegend.addEventListener('click', () => {
       if (legend.classList.contains('map_legend_active')) {
         legend.classList.remove('map_legend_active');
@@ -68,24 +67,24 @@ const MapContainer = {
     this.param = selectParam.value;
     this.option = selectOption.value;
     this.percent = selectPercent.value;
-    arraySelected.forEach((el) => {
-      el.addEventListener('change', () => {
-        this.param = selectParam.value;
-        this.option = selectOption.value;
-        this.percent = selectPercent.value;
-        MapContainer.drawCircles(this.param, this.option, this.percent);
-      }, false);
-    });
     this.drawCircles(this.param, this.option, this.percent);
+    this.elements.mapImg.setView([0, 0], 2);
   },
 
-  drawCircles(parametr, option, percent) {
+  drawCircles(par, opt, perct) {
     if (MapContainer.elements.circles.length) {
       MapContainer.elements.circles.forEach((elem) => {
         MapContainer.elements.mapImg.removeLayer(elem);
       });
       MapContainer.elements.circles = [];
     }
+    const parametr = par[0].toUpperCase() + par.slice(1);
+    const option = opt[0].toUpperCase() + opt.slice(1);
+    let percent = perct[0].toUpperCase() + perct.slice(1);
+    if (perct === 'per100k') { percent = 'Per 100k'; }
+    MapContainer.param = parametr;
+    MapContainer.option = option;
+    MapContainer.percent = percent;
     let colorCircle;
     let factor = 1;
     let param = `total${parametr}`;
@@ -180,6 +179,7 @@ const MapContainer = {
           circle.countryCode = country[i].countryCode;
           circle.latLon = country[i].latLon;
           this.elements.circles.push(circle);
+          circle.addEventListener('blur', () => { MapContainer.focusMap(country[i], cases, circle); });
           circle.addTo(MapContainer.elements.mapImg).on('click', () => {
             this.curcntr.countryCode = country[i].countryCode;
             this.curcntr.slug = country[i].slug;
@@ -231,7 +231,7 @@ const MapContainer = {
     popapMap.classList.add('popap_active');
     popapMap.innerHTML = `
     ${dataObj.name}<br>
-    Confirmed cases: ${Math.floor(causes).toLocaleString()}`;
+    Сases: ${Math.floor(causes).toLocaleString()}`;
   },
 
   focusCountry(countryCode) {
