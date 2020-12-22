@@ -24,7 +24,7 @@ getSummary return
     totalConfirmed: 48053,
     newDeaths: 16,
     totalDeaths: 1935,
-     newRecovered: 67,
+    newRecovered: 67,
     totalRecovered: 38099,
     population: 27657145,
     flag: 'https://restcountries.eu/data/afg.svg',
