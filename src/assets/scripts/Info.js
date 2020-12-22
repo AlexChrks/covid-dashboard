@@ -13,7 +13,7 @@ export default class Info {
   update(people, time, marker, countryCode) {
     let divider = 1;
     if ((countryCode === 'world') || (countryCode === undefined)) {
-      this.country.innerHTML = 'Word';
+      this.country.innerHTML = 'World';
       if (people === 'per100k') {
         divider = 100000;
       }
