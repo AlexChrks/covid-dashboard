@@ -99,7 +99,7 @@ class CountriesList {
         }
 
         if (this.selectPercent.value === 'Per 100k') {
-          const per100k = Number(total.innerHTML) / 100000;
+          const per100k = (Number(total.innerHTML) / country.population) * 100000;
           total.innerHTML = Math.round(per100k);
         }
 
