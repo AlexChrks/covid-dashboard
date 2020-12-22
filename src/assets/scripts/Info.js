@@ -5,80 +5,63 @@ export default class Info {
     this.database = database;
     this.div = DOMElement.create('div', 'infocontainer');
     this.country = DOMElement.create('p', 'infowidgetcountry', null, this.div);
-    this.marker = DOMElement.create('p', 'infowidgetmarker', null, this.div);
-    this.value = DOMElement.create('p', 'infowidgetvalue', null, this.div);
+    // this.marker = DOMElement.create('p', 'infowidgetmarker', null, this.div);
+    // this.value = DOMElement.create('p', 'infowidgetvalue', null, this.div);
+    this.confirmedMarker = DOMElement.create('p', 'infowidgetmarker', null, this.div);
+    this.confirmedValue = DOMElement.create('p', 'infowidgetvalue', null, this.div);
+    this.recoveredMarker = DOMElement.create('p', 'infowidgetmarker', null, this.div);
+    this.recoveredValue = DOMElement.create('p', 'infowidgetvalue', null, this.div);
+    this.deathsMarker = DOMElement.create('p', 'infowidgetmarker', null, this.div);
+    this.deathsValue = DOMElement.create('p', 'infowidgetvalue', null, this.div);
+    this.confirmedMarker.innerHTML = 'Confirmed';
+    this.recoveredMarker.innerHTML = 'Recovered';
+    this.deathsMarker.innerHTML = 'Deaths';
     this.update('absolute', 'total', 'confirmed', 'world');
   }
 
   update(people, time, marker, countryCode) {
     let divider = 1;
+    if (people === 'per100k') {
+      divider = 100000;
+    }
     if ((countryCode === 'world') || (countryCode === undefined)) {
       this.country.innerHTML = 'World';
-      if (people === 'per100k') {
-        divider = 100000;
-      }
-      switch (marker) {
-        case 'confirmed':
-          this.marker.innerHTML = 'Confirmed';
-          if (time === 'total') {
-            this.value.innerHTML = Math.floor(this.database.global.totalConfirmed / divider);
-          } else {
-            this.value.innerHTML = Math.floor(this.database.global.newConfirmed / divider);
-          }
-          break;
-        case 'recovered':
-          this.marker.innerHTML = 'Recovered';
-          if (time === 'total') {
-            this.value.innerHTML = Math.floor(this.database.global.totalRecovered / divider);
-          } else {
-            this.value.innerHTML = Math.floor(this.database.global.newRecovered / divider);
-          }
-          break;
-        case 'deaths':
-          this.marker.innerHTML = 'Deaths';
-          if (time === 'total') {
-            this.value.innerHTML = Math.floor(this.database.global.totalDeaths / divider);
-          } else {
-            this.value.innerHTML = Math.floor(this.database.global.newDeaths / divider);
-          }
-          break;
-        default:
-          break;
+      if (time === 'total') {
+        this.confirmedValue.innerHTML = Info.calcPer100k(this.database.global.totalConfirmed,
+          this.database.global.totalPopulation, divider);
+        this.recoveredValue.innerHTML = Info.calcPer100k(this.database.global.totalRecovered,
+          this.database.global.totalPopulation, divider);
+        this.deathsValue.innerHTML = Info.calcPer100k(this.database.global.totalDeaths,
+          this.database.global.totalPopulation, divider);
+      } else {
+        this.confirmedValue.innerHTML = Info.calcPer100k(this.database.global.newConfirmed,
+          this.database.global.totalPopulation, divider);
+        this.recoveredValue.innerHTML = Info.calcPer100k(this.database.global.newRecovered,
+          this.database.global.totalPopulation, divider);
+        this.deathsValue.innerHTML = Info.calcPer100k(this.database.global.newDeaths,
+          this.database.global.totalPopulation, divider);
       }
     } else {
       const country = this.database.countries.find((cntr) => cntr.countryCode === countryCode);
       this.country.innerHTML = country.name;
-      if (people === 'per100k') {
-        divider = 100000;
-      }
-      switch (marker) {
-        case 'confirmed':
-          this.marker.innerHTML = 'Confirmed';
-          if (time === 'total') {
-            this.value.innerHTML = Math.floor(country.totalConfirmed / divider);
-          } else {
-            this.value.innerHTML = Math.floor(country.newConfirmed / divider);
-          }
-          break;
-        case 'recovered':
-          this.marker.innerHTML = 'Recovered';
-          if (time === 'total') {
-            this.value.innerHTML = Math.floor(country.totalRecovered / divider);
-          } else {
-            this.value.innerHTML = Math.floor(country.newRecovered / divider);
-          }
-          break;
-        case 'deaths':
-          this.marker.innerHTML = 'Deaths';
-          if (time === 'total') {
-            this.value.innerHTML = Math.floor(country.totalDeaths / divider);
-          } else {
-            this.value.innerHTML = Math.floor(country.newDeaths / divider);
-          }
-          break;
-        default:
-          break;
+      if (time === 'total') {
+        this.confirmedValue.innerHTML = Info.calcPer100k(country.totalConfirmed, country.population, divider);
+        this.recoveredValue.innerHTML = Info.calcPer100k(country.totalRecovered, country.population, divider);
+        this.deathsValue.innerHTML = Info.calcPer100k(country.totalDeaths, country.population, divider);
+      } else {
+        this.confirmedValue.innerHTML = Info.calcPer100k(country.newConfirmed, country.population, divider);
+        this.recoveredValue.innerHTML = Info.calcPer100k(country.newRecovered, country.population, divider);
+        this.deathsValue.innerHTML = Info.calcPer100k(country.newDeaths, country.population, divider);
       }
     }
+  }
+
+  static calcPer100k(value, population, divider) {
+    if (divider === 1) return value;
+    const tmp = (value * divider) / population;
+    if (Math.floor(tmp) === 0) {
+      return Math.floor(tmp * 1000) / 1000;
+    }
+    return Math.floor(tmp);
   }
 }
