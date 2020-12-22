@@ -25,7 +25,8 @@ const MapContainer = {
       zoom: 1,
       zoomDelta: 0.25,
       zoomSnap: 0.5,
-      maxZoom: 2,
+      maxZoom: 10,
+      minZoom: 2,
       worldCopyJump: true
     };
     // eslint-disable-next-line no-undef
@@ -117,7 +118,7 @@ const MapContainer = {
         let radiusCircle;
         let cases;
         if (percent === 'Per 100k') {
-          cases = Math.ceil((country[i][param] / country[i].population) * 100000);
+          cases = Math.round((country[i][param] / country[i].population) * 100000);
         } else {
           cases = country[i][param];
         }
@@ -236,7 +237,6 @@ const MapContainer = {
 
   focusCountry(countryCode) {
     const circlesList = this.elements.circles;
-    // this.elements.mapImg.setZoom(2);
     for (let i = 0; i < circlesList.length; i += 1) {
       if (circlesList[i].countryCode === countryCode) {
         this.elements.mapImg.setView([circlesList[i].latLon[0], circlesList[i].latLon[1]], 4,
