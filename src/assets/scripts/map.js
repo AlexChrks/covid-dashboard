@@ -20,6 +20,10 @@ const MapContainer = {
   option: '',
   percent: '',
 
+  initCurCntr(obj) {
+    this.curcntr = obj;
+  },
+
   init() {
     const mapBlock = document.querySelector('.map_widget');
     const mapOptions = {
@@ -171,14 +175,16 @@ const MapContainer = {
             color: colorCircle,
             fillColor: colorCircle,
             fillOpacity: 0.7,
-            radius: radiusCircle,
-            className: `countrycode-${country[i].countryCode} slug-${country[i].slug}`
+            radius: radiusCircle
           });
           circle.countryCode = country[i].countryCode;
           circle.latLon = country[i].latLon;
           this.elements.circles.push(circle);
           circle.addTo(MapContainer.elements.mapImg).on('click', () => {
+            this.curcntr.countryCode = country[i].countryCode;
+            this.curcntr.slug = country[i].slug;
             MapContainer.focusMap(country[i], cases, circle);
+            this.elements.mapImg.fireEvent('click');
           });
         }
       }

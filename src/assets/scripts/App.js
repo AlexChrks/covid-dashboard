@@ -3,7 +3,6 @@ import Schedule from './Schedule.js';
 import { MapWidget } from './map.js';
 import CountriesList from './Countries.js';
 import Info from './Info.js';
-import { Map } from './leaflet-src.js';
 
 export default class App {
   constructor(summary, lastUpdatedLabel, generalGrid) {
@@ -13,6 +12,7 @@ export default class App {
     this.selectPanelsArray = [];
     this.selectPanelsState = { time: 'total', param: 'confirmed', percent: 'absolute' };
     this.selectedCountry = { slug: 'world', countryCode: 'world' };
+    this.cntrmemory = 'world';
   }
 
   init() {
@@ -46,7 +46,10 @@ export default class App {
     this.mapSelectPanel = new SelectPanel('map_widget', this.mapWidget);
     this.selectPanelsArray.push(this.mapSelectPanel);
     MapWidget.init();
+    MapWidget.initCurCntr(this.selectedCountry);
+    MapWidget.elements.mapImg.on('click', this.mapContainerHandle);
     this.mapSelectPanel.containerSelect.addEventListener('change', this.selectPanelsHandle);
+
     this.createPopup();
   }
 
@@ -109,11 +112,24 @@ export default class App {
     if (country !== null) {
       this.selectedCountry.countryCode = country.dataset.countrycode;
       this.selectedCountry.slug = country.dataset.slug;
+      if (this.cntrmemory !== this.selectedCountry.countryCode) {
+        this.cntrmemory = this.selectedCountry.countryCode;
+        this.info.update(this.selectPanelsState.percent, this.selectPanelsState.time, this.selectPanelsState.param,
+          this.selectedCountry.countryCode);
+        this.schedule.createSchedule(this.selectedCountry.countryCode, this.selectPanelsState.param,
+          this.selectPanelsState.time, this.selectPanelsState.percent);
+        MapWidget.focusCountry(this.selectedCountry.countryCode);
+      }
+    }
+  };
+
+  mapContainerHandle = () => {
+    if (this.cntrmemory !== this.selectedCountry.countryCode) {
+      this.cntrmemory = this.selectedCountry.countryCode;
       this.info.update(this.selectPanelsState.percent, this.selectPanelsState.time, this.selectPanelsState.param,
         this.selectedCountry.countryCode);
       this.schedule.createSchedule(this.selectedCountry.countryCode, this.selectPanelsState.param,
         this.selectPanelsState.time, this.selectPanelsState.percent);
-      MapWidget.focusCountry(this.selectedCountry.countryCode);
     }
-  };
+  }
 }
