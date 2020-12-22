@@ -1,4 +1,57 @@
+.map_select {
+	z-index: 100;
+	position: absolute;
+	left: 65px;
+}
+
+.map_legend {
+	display: none;
+	position: absolute;
+	z-index: 100;
+	width: 200px;
+	background: #434347;
+	top: 30px;
+	right: 10px;
+	font-size: 14px;
+	padding: 10px;
+	border-radius: 10px;
+}
+
+.map_legend_active {
+	display: block;
+}
+
+.map_legend span {
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	background: black;
+	border-radius: 50%;
+}
+
+.line_legend {
+	display: flex;
+	align-items: center;
+}
+
+.wrap_circle {
+	height: 15px;
+	width: 25px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding-right: 10px;
+}
+
+.map_select {
+	position: absolute;
+	z-index: 100;
+	bottom: 10px;
+	left: 10px;
+}
+
 .map_popap {
+	display: none;
 	font-size: 14px;
 	padding: 10px 20px;
 	display: none;
@@ -7,9 +60,24 @@
 	background: #363636;
 	z-index: 100;
 	position: absolute;
-	top: 5px;
-	right: 5px;
+	top: 30px;
+	right: 10px;
 	border-radius: 10px;
+}
+
+.popap_active {
+	display: block;
+}
+
+.map_popap::before {
+  position: absolute;
+  content: "\f057";
+  font-family: FontAwesome;
+  font-size: 16px;
+  color: #d2d2d2;
+  right: 5px;
+  top: 0px;
+  cursor: pointer;
 }
 
 .wrapper_data_switches {
@@ -547,4 +615,4 @@
 .leaflet-div-icon {
 	background: #fff;
 	border: 1px solid #666;
-	}
+}

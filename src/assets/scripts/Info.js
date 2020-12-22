@@ -13,7 +13,7 @@ export default class Info {
   update(people, time, marker, countryCode) {
     let divider = 1;
     if ((countryCode === 'world') || (countryCode === undefined)) {
-      this.country.innerHTML = 'Word';
+      this.country.innerHTML = 'World';
       if (people === 'per100k') {
         divider = 100000;
       }
@@ -46,8 +46,39 @@ export default class Info {
           break;
       }
     } else {
-      const tmp = this.database.countries.find((cntr) => cntr.countryCode === countryCode);
-      this.country.innerHTML = tmp.name;
+      const country = this.database.countries.find((cntr) => cntr.countryCode === countryCode);
+      this.country.innerHTML = country.name;
+      if (people === 'per100k') {
+        divider = 100000;
+      }
+      switch (marker) {
+        case 'confirmed':
+          this.marker.innerHTML = 'Confirmed';
+          if (time === 'total') {
+            this.value.innerHTML = Math.floor(country.totalConfirmed / divider);
+          } else {
+            this.value.innerHTML = Math.floor(country.newConfirmed / divider);
+          }
+          break;
+        case 'recovered':
+          this.marker.innerHTML = 'Recovered';
+          if (time === 'total') {
+            this.value.innerHTML = Math.floor(country.totalRecovered / divider);
+          } else {
+            this.value.innerHTML = Math.floor(country.newRecovered / divider);
+          }
+          break;
+        case 'deaths':
+          this.marker.innerHTML = 'Deaths';
+          if (time === 'total') {
+            this.value.innerHTML = Math.floor(country.totalDeaths / divider);
+          } else {
+            this.value.innerHTML = Math.floor(country.newDeaths / divider);
+          }
+          break;
+        default:
+          break;
+      }
     }
   }
 }

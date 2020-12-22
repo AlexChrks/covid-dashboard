@@ -24,7 +24,7 @@ getSummary return
     totalConfirmed: 48053,
     newDeaths: 16,
     totalDeaths: 1935,
-     newRecovered: 67,
+    newRecovered: 67,
     totalRecovered: 38099,
     population: 27657145,
     flag: 'https://restcountries.eu/data/afg.svg',
@@ -149,8 +149,8 @@ export default class CovidAPI {
   }
 
   static getCountryHistory(countrySlug) {
-    const countryHistory = `https://api.covid19api.com/country/slug?from=${
-      (new Date(2020, 4, 1)).toISOString()}&to=${(new Date()).toISOString()}`;
+    const countryHistory = `https://api.covid19api.com/country/slug?from=${(new Date(2020, 4, 1))
+      .toISOString()}&to=${(new Date()).toISOString()}`;
     const url = countryHistory.replace(/slug/, countrySlug);
     const retPromise = fetch(url).then((response) => {
       if (response.status !== 200) {
