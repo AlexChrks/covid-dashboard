@@ -3,7 +3,6 @@ import Schedule from './Schedule.js';
 import { MapWidget } from './map.js';
 import CountriesList from './Countries.js';
 import Info from './Info.js';
-import { Map } from './leaflet-src.js';
 
 export default class App {
   constructor(summary, lastUpdatedLabel, generalGrid) {
@@ -59,6 +58,7 @@ export default class App {
     this.schedule.createSchedule(this.selectedCountry.countryCode, state.param, state.time, state.percent);
     this.info.update(state.percent, state.time, state.param, this.selectedCountry.countryCode);
     this.countries.createList();
+    MapWidget.drawCircles(state.param, state.time, state.percent);
   }
 
   selectPanelsHandle = (event) => {
