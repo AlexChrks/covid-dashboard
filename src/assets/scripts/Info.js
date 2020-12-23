@@ -16,7 +16,9 @@ export default class Info {
     this.confirmedMarker.innerHTML = 'Confirmed';
     this.recoveredMarker.innerHTML = 'Recovered';
     this.deathsMarker.innerHTML = 'Deaths';
-    this.update('absolute', 'total', 'confirmed', 'world');
+    if (database !== null) {
+      this.update('absolute', 'total', 'confirmed', 'world');
+    }
   }
 
   update(people, time, marker, countryCode) {
