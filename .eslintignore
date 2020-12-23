@@ -5,3 +5,4 @@ src/assets/scripts/leaflet-src.js
 src/assets/scripts/Chart.bundle.min.js
 src/assets/scripts/Info.spec.js
 src/assets/scripts/DOMElement.test.js
+src/assets/scripts/Map.spec.js
