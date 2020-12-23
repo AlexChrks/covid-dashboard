@@ -3,7 +3,7 @@ import Info from './Info.js';
 describe('Info: calcPer100k', () => {
   const info = new Info(null);
 
-  test('should be defined', () => {
+  test('Info.calcPer100k should be defined', () => {
     expect(Info.calcPer100k).toBeDefined();
   });
 
