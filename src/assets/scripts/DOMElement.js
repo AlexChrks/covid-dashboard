@@ -10,7 +10,7 @@ export default class DOMElement {
     try {
       elem = document.createElement(element);
     } catch (error) {
-      alert(`Function create error!${error.name} ${error.message}`);
+      throw new Error(`Function create error!${error.name} ${error.message}`);
     }
 
     if (classNames) {

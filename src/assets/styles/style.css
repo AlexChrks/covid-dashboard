@@ -112,6 +112,11 @@ main {
 
 .infocontainer {
   text-align: center;
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 #selectparaminfowidget {
@@ -119,19 +124,32 @@ main {
 }
 
 .infowidgetcountry {
-  font-size: 4rem;
+  font-size: 3rem;
   font-weight: bold;
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
 
 .infowidgetmarker {
-  font-size: 3rem;
+  font-size: 2rem;
 }
 
 .infowidgetvalue {
-  font-size: 3rem;
+  font-size: 2rem;
   padding-bottom: 1rem;
+}
+
+.full_screen_popup > .infocontainer > .infowidgetcountry {
+  font-size: 8rem;
+}
+
+.full_screen_popup > .infocontainer > .infowidgetmarker {
+  font-size: 5rem;
+}
+
+.full_screen_popup > .infocontainer > .infowidgetvalue {
+  font-size: 5rem;
+  padding-bottom: 2rem;
 }
 
 /* _________________________________________footer */
@@ -293,6 +311,10 @@ select {
   justify-content: center;
   align-items: center;
 }
+
+.full_screen_popup {
+  width: 98% !important;
+}
 /* _________________________________________hover: */
 
 .rss_logo:hover {
@@ -404,7 +426,7 @@ option:hover {
 
   .general_grid {
     grid-template-columns: 33vw 61vw;
-    grid-template-rows: 70vh 33vw;
+    grid-template-rows: 70vw 33vw;
   }
   
   .additional_grid {
@@ -436,7 +458,7 @@ option:hover {
 @media screen and (max-width: 768px) {
   .general_grid {
     grid-template-columns: 33vw 61vw;
-    grid-template-rows: 50vh 25vh 25vh;
+    grid-template-rows: 50vh 30vh 35vh;
   }
 
   select {
@@ -489,6 +511,21 @@ option:hover {
 
   .logo_container {
     width: 310px;
+  }
+
+  .infowidgetcountry {
+    font-size: 2.5rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .infowidgetmarker {
+    font-size: 2rem;
+  }
+  
+  .infowidgetvalue {
+    font-size: 2rem;
+    padding-bottom: 0.5rem;
   }
 }
 
