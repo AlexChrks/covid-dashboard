@@ -134,6 +134,19 @@ main {
   padding-bottom: 1rem;
 }
 
+.full_screen_popup > .infocontainer > .infowidgetcountry {
+  font-size: 10rem;
+}
+
+.full_screen_popup > .infocontainer > .infowidgetmarker {
+  font-size: 7rem;
+}
+
+.full_screen_popup > .infocontainer > .infowidgetvalue {
+  font-size: 7rem;
+  padding-bottom: 2rem;
+}
+
 /* _________________________________________footer */
 
 footer {
@@ -489,6 +502,21 @@ option:hover {
 
   .logo_container {
     width: 310px;
+  }
+
+  .infowidgetcountry {
+    font-size: 2.5rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .infowidgetmarker {
+    font-size: 2rem;
+  }
+  
+  .infowidgetvalue {
+    font-size: 2rem;
+    padding-bottom: 0.5rem;
   }
 }
 
