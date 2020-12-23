@@ -108,14 +108,30 @@ main {
   justify-content: space-around;
 }
 
+/* _____________________________________infowidget */
+
 .infocontainer {
-  margin-top: 2rem;
-  font-size: 5rem;
   text-align: center;
 }
 
-.infocontainer > p {
+#selectparaminfowidget {
+  display: none;
+}
+
+.infowidgetcountry {
+  font-size: 4rem;
+  font-weight: bold;
+  margin-top: 1rem;
   margin-bottom: 1rem;
+}
+
+.infowidgetmarker {
+  font-size: 3rem;
+}
+
+.infowidgetvalue {
+  font-size: 3rem;
+  padding-bottom: 1rem;
 }
 
 /* _________________________________________footer */
@@ -401,9 +417,20 @@ option:hover {
     grid-row-end: 2;
   }
 
-  .infocontainer {
-    font-size: 4rem;
-}
+  .infowidgetcountry {
+    font-size: 3rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .infowidgetmarker {
+    font-size: 2.5rem;
+  }
+  
+  .infowidgetvalue {
+    font-size: 2.5rem;
+    padding-bottom: 0.5rem;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -506,7 +533,7 @@ option:hover {
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
   user-select: none;
   transition: bottom 0.4s;
-  z-index: 901;
+  z-index: 999;
 }
 
 .keyboard--hidden {
@@ -591,13 +618,3 @@ option:hover {
   background: #b30000; 
 }
 
-
-/* _________________________________infoBlock */
-
-.infowidgetcountry {
-  font-weight: bold;
-}
-
-.infowidgetvalue {
-  padding-top: 20px;
-}
