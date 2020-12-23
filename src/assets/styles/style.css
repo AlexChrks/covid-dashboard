@@ -112,6 +112,11 @@ main {
 
 .infocontainer {
   text-align: center;
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 #selectparaminfowidget {
@@ -421,7 +426,7 @@ option:hover {
 
   .general_grid {
     grid-template-columns: 33vw 61vw;
-    grid-template-rows: 70vh 33vw;
+    grid-template-rows: 70vw 33vw;
   }
   
   .additional_grid {
@@ -453,7 +458,7 @@ option:hover {
 @media screen and (max-width: 768px) {
   .general_grid {
     grid-template-columns: 33vw 61vw;
-    grid-template-rows: 50vh 25vh 25vh;
+    grid-template-rows: 50vh 30vh 35vh;
   }
 
   select {
