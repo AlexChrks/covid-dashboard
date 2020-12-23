@@ -2,6 +2,7 @@ import CovidAPI from './Covid19API.js';
 // eslint-disable-next-line no-unused-vars
 import { Map } from './leaflet-src.js';
 import '../styles/leaflet.css';
+import countPer100K from './countPer100KMap.js';
 
 const MapContainer = {
   elements: {
@@ -118,7 +119,7 @@ const MapContainer = {
         let radiusCircle;
         let cases;
         if (percent === 'Per 100k') {
-          cases = Math.round((country[i][param] / country[i].population) * 100000);
+          cases = countPer100K(country[i][param], country[i].population);тзь
         } else {
           cases = country[i][param];
         }
@@ -180,12 +181,18 @@ const MapContainer = {
           circle.countryCode = country[i].countryCode;
           circle.latLon = country[i].latLon;
           this.elements.circles.push(circle);
-          circle.addEventListener('blur', () => { MapContainer.focusMap(country[i], cases, circle); });
-          circle.addTo(MapContainer.elements.mapImg).on('click', () => {
+          const circleElement = circle.addTo(MapContainer.elements.mapImg);
+          circleElement.on('click', (event) => {
             this.curcntr.countryCode = country[i].countryCode;
             this.curcntr.slug = country[i].slug;
-            MapContainer.focusMap(country[i], cases, circle);
+            MapContainer.focusMap(event, country[i], cases, circle);
             this.elements.mapImg.fireEvent('click');
+          });
+          circleElement.addEventListener('mouseover', (event) => {
+            MapContainer.focusMap(event, country[i], cases, circle);
+          });
+          circleElement.addEventListener('mouseout', (event) => {
+            MapContainer.focusMap(event, country[i], cases, circle);
           });
         }
       }
@@ -225,14 +232,20 @@ const MapContainer = {
     }
   },
 
-  focusMap(dataObj, causes, circle) {
+  focusMap(event, dataObj, causes, circle) {
     circle.closePopup();
-    this.elements.mapImg.setView([dataObj.latLon[0], dataObj.latLon[1]], 5);
     const popapMap = document.querySelector('.map_popap');
-    popapMap.classList.add('popap_active');
-    popapMap.innerHTML = `
-    ${dataObj.name}<br>
-    Сases: ${Math.floor(causes).toLocaleString()}`;
+    if (event.type === 'mouseover') {
+      popapMap.classList.add('popap_active');
+      popapMap.innerHTML = `
+      ${dataObj.name}<br>
+      Сases: ${Math.floor(causes).toLocaleString()}`;
+    } else if (event.type === 'mouseout') {
+      popapMap.classList.remove('popap_active');
+    } else if (event.type === 'click') {
+      MapContainer.elements.mapImg.setView([circle.latLon[0], circle.latLon[1]], 4,
+        { animate: true, duration: 0.5 });
+    }
   },
 
   focusCountry(countryCode) {
