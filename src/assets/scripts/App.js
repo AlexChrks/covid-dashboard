@@ -62,6 +62,7 @@ export default class App {
     this.schedule.createSchedule(this.selectedCountry.slug, state.param, state.time, state.percent);
     this.info.update(state.percent, state.time, state.param, this.selectedCountry.countryCode);
     this.countries.createList();
+    MapWidget.drawCircles(state.param, state.time, state.percent);
   }
 
   selectPanelsHandle = (event) => {
