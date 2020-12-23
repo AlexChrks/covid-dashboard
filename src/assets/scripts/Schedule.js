@@ -39,7 +39,7 @@ class Schedule {
         break;
     }
     if (country !== 'world') {
-      this.promiseHistory = CovidAPI.getCountryHistory(country)
+      this.promiseHistory = CovidAPI.getCountryHistoryAlter(country)
         .then((database) => database)
         .catch((error) => new Error(error.message));
     } else {
@@ -74,7 +74,7 @@ class Schedule {
       population = this.objCases.global.totalPopulation;
     } else {
       this.objCases.countries.forEach((el) => {
-        if (el.name === this.country) {
+        if (el.countryCode === this.country) {
           population = el.population;
         }
       });
@@ -221,7 +221,6 @@ class Schedule {
     if (this.chart) this.chart.destroy();
     Chart.defaults.global.defaultFontColor = 'rgba(255,255,255,.7)';
     this.chart = new Chart(this.ctx, chartConfig);
-    return this.chart;
   }
 }
 
