@@ -59,7 +59,7 @@ export default class App {
       panel.paramSelect.selectedIndex = stateShort.param;
       panel.percentSelect.selectedIndex = stateShort.percent;
     });
-    this.schedule.createSchedule(this.selectedCountry.countryCode, state.param, state.time, state.percent);
+    this.schedule.createSchedule(this.selectedCountry.slug, state.param, state.time, state.percent);
     this.info.update(state.percent, state.time, state.param, this.selectedCountry.countryCode);
     this.countries.createList();
   }
