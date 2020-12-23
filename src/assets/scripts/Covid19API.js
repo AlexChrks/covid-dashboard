@@ -172,4 +172,28 @@ export default class CovidAPI {
     });
     return retPromise;
   }
+
+  static getCountryHistoryAlter(countrySlug) {
+    const url = `https://disease.sh/v3/covid-19/historical/${countrySlug}?lastdays=366`;
+    const retPromise = fetch(url).then((response) => {
+      if (response.status !== 200) {
+        return new Error('getCountryHistory http request error');
+      }
+      return response.json();
+    }).then((data) => {
+      const database = [];
+      const dateArr = Object.keys(data.timeline.cases);
+      dateArr.forEach((date) => {
+        const day = {
+          date: new Date(date),
+          totalConfirmed: data.timeline.cases[date],
+          totalDeaths: data.timeline.deaths[date],
+          totalRecovered: data.timeline.recovered[date]
+        };
+        database.push(day);
+      });
+      return database;
+    });
+    return retPromise;
+  }
 }
