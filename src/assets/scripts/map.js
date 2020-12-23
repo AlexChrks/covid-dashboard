@@ -119,7 +119,7 @@ const MapContainer = {
         let radiusCircle;
         let cases;
         if (percent === 'Per 100k') {
-          cases = countPer100K(country[i][param], country[i].population);тзь
+          cases = countPer100K(country[i][param], country[i].population);
         } else {
           cases = country[i][param];
         }
