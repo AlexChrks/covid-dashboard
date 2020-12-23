@@ -2,9 +2,11 @@ import Chart from './Chart.bundle.min.js';
 import CovidAPI from './Covid19API.js';
 
 class Schedule {
-  constructor() {
-    this.generateSchedule();
-    this.createSchedule();
+  constructor(test) {
+    if (!test) {
+      this.generateSchedule();
+      this.createSchedule();
+    }
   }
 
   generateSchedule() {
